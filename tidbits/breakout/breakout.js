@@ -157,7 +157,7 @@ function update() {
     context.fillText(score, 10, 25);
 
     //gamewin
-    if (blockcount <= 10){
+    if (blockcount <= 100){
         context.font = "40px Roboto";
         context.fillText("you win!", 100, 400);
         context.font = "20px Roboto";
