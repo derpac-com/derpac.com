@@ -8,7 +8,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" href="drag_styles.css" />
-        <title>derdraw</title>
+        <title>derpaint</title>
        
        <script>
             jQuery(init);
@@ -23,25 +23,28 @@
             .grid-container{
                 display: grid;
                 column-gap: 0px;
-                grid-template-columns: 100px 50px 50px;
-                column-gap: 50px;
-                margin-left: 50px;
+                grid-template-columns: 100px 50px ;
+                column-gap: 5px;
+                margin-left: 0px;
                 margin-top: 0px;
 
             }
             .headtitle{
                 grid-row-start: 1;
                 grid-row-end: 2;
+                grid-column: 2 / span 1;
             }
             .brush{
                 grid-row-start: 1;
                 grid-row-end: 2;
                 align-content: center;
+                grid-column: 1 / span 1;
             }
             .eraser{
-                grid-row-start: 1;
-                grid-row-end: 2;
+                grid-row-start: 2;
+                grid-row-end: 3;
                 align-content: center;
+                grid-column: 1 / span 1;
             }
         </style>
     </head>
@@ -54,11 +57,11 @@
         left: 0px;
         right: 0px;
         ">
-        <canvas id="drawingboard" style="height: 100%; width: 100%;"></canvas> 
+        <canvas id="drawingboard" style="height: 100%; width: 100%;" style="background-color: #d45500;"></canvas> 
     </div>
     
         <div class="grid-container">
-            <div class="headtitle"><h1>derdraw.</h1></div>
+            <div class="headtitle"><h1>derpaint.</h1></div>
             <div class="brush">
                 <div id="brush">
                 <img class="drag" src="/tidbits/orangelogo.png"  width="50px" height="50px">

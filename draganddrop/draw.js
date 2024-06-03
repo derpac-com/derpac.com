@@ -14,7 +14,7 @@ canvas.width = window.innerWidth - canvasOffsetX;
 canvas.height = window.innerHeight - canvasOffsetY;
 
 let isPainting = false;
-let lineWidth = 50;
+let lineWidth = 48;
 let startX;
 let startY;
 
