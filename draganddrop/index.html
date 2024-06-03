@@ -1,18 +1,72 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <script src="jquery.js"></script>
+        <link href="/jQuery/jquery-ui.css" rel="stylesheet">
+        <script src="/jQuery/jquery-3.7.1.js"></script>
+        <script src="/jQuery/jquery-ui.js"></script>
+
         <meta charset="UTF-8">
-        <link rel="stylesheet" type="text/css" href="/styles.css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="drag_styles.css" />
         <title>derdraw</title>
-        <script>
+       
+       <script>
             jQuery(init);
-            function init(){
-                alert("hello from jq");
+
+            function init() { 
+         //       alert("yup");
+                jQuery(".drag").draggable();
+
             }
         </script>
+        <style>
+            .grid-container{
+                display: grid;
+                column-gap: 0px;
+                grid-template-columns: 50px 50px;
+                column-gap: 2em;
+                margin-left: 100px;
+                margin-top: 50px;
+
+            }
+            .headtitle{
+                grid-row-start: 1;
+                grid-row-end: 2;
+            }
+            .brush{
+                grid-row-start: 2;
+                grid-row-end: 2;
+            }
+            .eraser{
+                grid-row-start: 2;
+                grid-row-end: 2;
+            }
+        </style>
     </head>
     <body>
-        <h1> hello </h1>
+        </div>
+        <div class="container-fluid" style="
+        position: absolute;
+        bottom: 0px;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        ">
+        <canvas id="drawingboard" style="height: 100%; width: 100%;"></canvas> 
+    </div>
+    
+        <div class="grid-container">
+            <div class="headtitle"><h1>derdraw.</h1></div>
+            <div class="brush">
+                <div id="brush"><h3 class="drag">B</h3></div>
+                <!-- <img src="tidbits\orangelogo.png"  width="50px" height="50px"> -->
+            </div>
+            <div class="eraser">
+                <div id="eraser"><h3 class="drag">E</h3></div>
+                <!-- <img src="tidbits\eraser.png" width="50px" height="50px"> -->
+                
+            </div>
+        <script src="/draganddrop/draw.js"></script>
+    
     </body>
 </html>
