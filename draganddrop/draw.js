@@ -72,3 +72,31 @@ eraser.addEventListener("mousedown", (e) => {
 
 brush.addEventListener("mousemove", draw);
 eraser.addEventListener("mousemove", draw);
+
+
+// mobile friendly mode: 
+//  - dont use draggable just use finger on canvas
+//  - select mode by tapping the orange or eraser
+//  - normal event listner for canvas
+
+canvas.addEventListener("touchmove", draw);
+
+brush.addEventListener("touchstart", (e) => {
+    ctx.strokeStyle = "#d45500";
+
+});
+eraser.addEventListener("touchstart", (e) => {
+    ctx.strokeStyle = "#fefefe";
+});
+
+canvas.addEventListener("touchstart", (e) => {
+    isPainting = true;
+    startX = e.clientX;
+    startY = e.clientY;
+});
+
+canvas.addEventListener("touchend", (e) => {
+    isPainting = false;
+    ctx.stroke();
+    ctx.beginPath();
+});
