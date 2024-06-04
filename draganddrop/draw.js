@@ -13,69 +13,70 @@ const canvasOffsetY = canvas.offsetTop;
 canvas.width = window.innerWidth - canvasOffsetX;
 canvas.height = window.innerHeight - canvasOffsetY;
 
-let isPainting = false;
+let isPaintingM = false;
+let isPaintingT = false;
 let lineWidth = 48;
 let startX;
 let startY;
 ctx.strokeStyle = "#d45500";
 
 const draw = (e) => {
-    if(!isPainting){
+    if(!isPaintingM && !isPaintingT){
         return;
     }
-    else{
-        //console.log("drawing", ctx.strokeStyle, lineWidth);
+    else if(isPaintingM){
+        console.log("drawing", ctx.strokeStyle, lineWidth);
         ctx.lineWidth = lineWidth;
         ctx.lineCap = "round";
         ctx.lineTo(e.clientX,e.clientY);
-        ctx.lineTo(e.touches[0].clientX,e.touches[0].clientY);
         ctx.stroke();
     }
+    else if(isPaintingT){
+        console.log("touchmove");
+        ctx.lineWidth = lineWidth;
+        ctx.lineCap = "round";
+        ctx.lineTo(e.touches[0].clientX,e.touches[0].clientY);
+     //   ctx.lineTo(e.clientX,e.clientY);
+        ctx.stroke();
+    
     }
+    }                             // add whole new one for touch and one for mouse painting..
 
-canvas.addEventListener("mousedown", (e) => {
-    isPainting = true;
-    startX = e.clientX;
-    startY = e.clientY;
-});
+// canvas.addEventListener("mousedown", (e) => {
+//     isPaintingM = true;
+//     startX = e.clientX;
+//     startY = e.clientY;
+// });
 
 brush.addEventListener("mouseup", (e) => {
-    isPainting = false;
+    isPaintingM= false;
     ctx.stroke();
     ctx.beginPath();
 });
 eraser.addEventListener("mouseup", (e) => {
-    isPainting = false;
+    isPaintingM = false;
     ctx.stroke();
     ctx.beginPath();
 });
 
- canvas.addEventListener("mousemove", draw);
+canvas.addEventListener("mousemove", draw);
 
 brush.addEventListener("mousedown", (e) => {
-    isPainting = true;
+    isPaintingM = true;
     ctx.strokeStyle = "#d45500";
     startX = e.clientX;
-    startY = e.clientY;
-    
-    
-   
-    
+    startY = e.clientY; 
 });
 eraser.addEventListener("mousedown", (e) => {
-    isPainting = true;
+    isPaintingM = true;
     ctx.strokeStyle = "#fefefe";
     startX = e.clientX;
     startY = e.clientY;
-    console.log("mousedown")
-   
-    
-
-    
+    console.log("mousedown");
 });
 
-// brush.addEventListener("mousemove", draw);
-// eraser.addEventListener("mousemove", draw);
+brush.addEventListener("mousemove", draw);
+eraser.addEventListener("mousemove", draw);
 
 
 // mobile friendly mode: 
@@ -91,22 +92,24 @@ canvas.addEventListener("touchmove", draw);
 
 brush.addEventListener("touchstart", (e) => {
     ctx.strokeStyle = "#d45500";
-    lineWidth = 20;
+    lineWidth = 30;
 
 });
 eraser.addEventListener("touchstart", (e) => {
     ctx.strokeStyle = "#fefefe";
-    lineWidth = 20;
+    lineWidth = 30;
+    
 });
 
 canvas.addEventListener("touchstart", (e) => {
-    isPainting = true;
+    isPaintingT = true;
     startX = e.touches[0].clientX;
     startY = e.touches[0].clientY;
+    //console.log("touch");
 });
 
 canvas.addEventListener("touchend", (e) => {
-    isPainting = false;
+    isPaintingT = false;
     ctx.stroke();
     ctx.beginPath();
 });
