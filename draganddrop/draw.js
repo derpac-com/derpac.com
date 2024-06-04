@@ -17,6 +17,7 @@ let isPainting = false;
 let lineWidth = 48;
 let startX;
 let startY;
+ctx.strokeStyle = "#d45500";
 
 const draw = (e) => {
     if(!isPainting){
@@ -36,12 +37,13 @@ const draw = (e) => {
 //     startX = e.clientX;
 //     startY = e.clientY;
 // });
-brush.addEventListener("mouseup", e => {
+
+brush.addEventListener("mouseup", (e) => {
     isPainting = false;
     ctx.stroke();
     ctx.beginPath();
 });
-eraser.addEventListener("mouseup", e => {
+eraser.addEventListener("mouseup", (e) => {
     isPainting = false;
     ctx.stroke();
     ctx.beginPath();
@@ -81,12 +83,18 @@ eraser.addEventListener("mousemove", draw);
 
 canvas.addEventListener("touchmove", draw);
 
+// canvas.addEventListener("touchmove", e => {
+//     console.log("Move");
+// });
+
 brush.addEventListener("touchstart", (e) => {
     ctx.strokeStyle = "#d45500";
+    lineWidth = 20;
 
 });
 eraser.addEventListener("touchstart", (e) => {
     ctx.strokeStyle = "#fefefe";
+    lineWidth = 20;
 });
 
 canvas.addEventListener("touchstart", (e) => {
