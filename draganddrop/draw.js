@@ -92,12 +92,12 @@ canvas.addEventListener("touchmove", draw);
 
 brush.addEventListener("touchstart", (e) => {
     ctx.strokeStyle = "#d45500";
-    lineWidth = 30;
+    lineWidth = 48;
 
 });
 eraser.addEventListener("touchstart", (e) => {
     ctx.strokeStyle = "#fefefe";
-    lineWidth = 30;
+    lineWidth = 48;
     
 });
 
