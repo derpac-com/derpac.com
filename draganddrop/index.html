@@ -6,7 +6,7 @@
         <script src="/jQuery/jquery-ui.js"></script>
 
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <META name="viewport" content="initial-scale=0.66, user-scalable=no"> 
         <link rel="stylesheet" type="text/css" href="drag_styles.css" />
         <title>derpaint</title>
        
@@ -57,20 +57,20 @@
         left: 0px;
         right: 0px;
         ">
-        <canvas id="drawingboard" style="height: 100%; width: 100%;" style="background-color: #d45500;"></canvas> 
+        <canvas id="drawingboard" style="height: 100%; width: 100%;"></canvas> 
     </div>
     
         <div class="grid-container">
             <div class="headtitle"><h1>derpaint.</h1></div>
-            <div class="brush">
-                <div id="brush">
+            <div class="brush" id="brush">
+                <!-- <div id="brush"> -->
                 <img class="drag" src="/tidbits/orangelogo.png"  width="50px" height="50px">
-                </div>
+                <!-- </div> -->
             </div>
-            <div class="eraser">
-                <div id="eraser">
+            <div class="eraser" id="eraser">
+                <!-- <div id="eraser"> -->
                 <img class="drag" src="/tidbits/eraser.png" width="50px" height="50px">
-                </div>
+                <!-- </div> -->
                 
             </div>
         <script src="/draganddrop/draw.js"></script>
