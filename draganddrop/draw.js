@@ -24,19 +24,20 @@ const draw = (e) => {
         return;
     }
     else{
-    
+        //console.log("drawing", ctx.strokeStyle, lineWidth);
         ctx.lineWidth = lineWidth;
         ctx.lineCap = "round";
-        ctx.lineTo(e.clientX - canvasOffsetX, e.clientY);
+        ctx.lineTo(e.clientX,e.clientY);
+        ctx.lineTo(e.touches[0].clientX,e.touches[0].clientY);
         ctx.stroke();
     }
     }
 
-// canvas.addEventListener("mousedown", (e) => {
-//     isPainting = true;
-//     startX = e.clientX;
-//     startY = e.clientY;
-// });
+canvas.addEventListener("mousedown", (e) => {
+    isPainting = true;
+    startX = e.clientX;
+    startY = e.clientY;
+});
 
 brush.addEventListener("mouseup", (e) => {
     isPainting = false;
@@ -56,7 +57,7 @@ brush.addEventListener("mousedown", (e) => {
     ctx.strokeStyle = "#d45500";
     startX = e.clientX;
     startY = e.clientY;
-    brush = true;
+    
     
    
     
@@ -66,14 +67,15 @@ eraser.addEventListener("mousedown", (e) => {
     ctx.strokeStyle = "#fefefe";
     startX = e.clientX;
     startY = e.clientY;
-    eraser = true;
+    console.log("mousedown")
+   
     
 
     
 });
 
-brush.addEventListener("mousemove", draw);
-eraser.addEventListener("mousemove", draw);
+// brush.addEventListener("mousemove", draw);
+// eraser.addEventListener("mousemove", draw);
 
 
 // mobile friendly mode: 
@@ -99,8 +101,8 @@ eraser.addEventListener("touchstart", (e) => {
 
 canvas.addEventListener("touchstart", (e) => {
     isPainting = true;
-    startX = e.clientX;
-    startY = e.clientY;
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
 });
 
 canvas.addEventListener("touchend", (e) => {
