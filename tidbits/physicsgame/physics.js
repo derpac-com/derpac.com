@@ -9,12 +9,14 @@ let power = 0;
 let angle = 0;
 let velx = 0;
 let vely = 0;
-const g = 9.81;
+const g = document.getElementById("Gravity").value;
 let accelx;
 let accely; 
-const ar = 0.05;
+const ar = document.getElementById("Air Resistance").value;
 let ballwidth = 25;
 let ballheight = 25;
+
+
 
 let ball = {
     x : boardwidth/2,
@@ -32,40 +34,6 @@ window.onload = function (){
     context = board.getContext("2d"); //used for drawing on the board
     requestAnimationFrame(update);
 
-    // toolbar = document.getElementById("toolbar");
-
-    // toolbar.addEventListener("change", e =>{
-    //     if(e.target.id === "power"){
-    //         power = e.target.value;
-    //         console.log("power is now: ", power);
-    //     }
-    //     if(e.target.id ==="angle"){
-    //         angle = e.target.value;
-    //         console.log("angle is now ", angle);
-    //     }
-    // });
-
-//     board.addEventListener("click", (e)=> {
-//         // ball.velocityx += Math.cos(angle)*power;
-//         // ball.velocityy += Math.sin(angle)*power*-1;
-//         velcalc();
-//         console.log(ball.x, ball.y);
-//     });
-
-//      function velcalc() {
-//          if (angle>360){
-//             let value = (angle % 360);
-//             ball.velocityx = Math.cos(value)*power;
-//             ball.velocityy = (Math.sin(value)*power)*-1;
-//          }
-//  else{
-//              ball.velocityx = Math.cos(angle)*power;
-//              ball.velocityy = (Math.sin(angle)*power)*-1;
-//          }
-//      }
-
-     // event listner that logs the start and end cooridnates
-     // function that uses the coordinates to calulate an angle and an power
 
     
      document.addEventListener("mousedown", e => {
@@ -139,12 +107,9 @@ window.onload = function (){
 
         let delx = initx - finx;
         let dely = inity - finy;
-        // if((delx = 0) && (dely = 0)){
-        //     delx = 4;
-        //     dely = 4;
-        //     console.log(delx,dely);
-        // }
-
+        if((delx <= 0) && (dely <= 0)){
+            delx = dely = 1;
+        }
         powerfactor = Math.sqrt(Math.pow(delx,2) + Math.pow(dely,2));
         if(powerfactor > 100){
             powerfactor = 100;
@@ -181,13 +146,20 @@ window.onload = function (){
         }
 }
 
+function ing(val){
+    g = val;
+}
+function inar(val){
+    ar = val;
+}
+
 }
 
 function update(){
     requestAnimationFrame(update);
-
+    
     context.clearRect(0, 0, board.width, board.height);
-    ball.velocityy += 0.98;
+    ball.velocityy += g/10;
     ball.velocityy -= ar*ball.velocityy;
     ball.velocityx -= ar*ball.velocityx;
     //draw and update ball
@@ -201,6 +173,7 @@ function update(){
     if (ball.y <= 0) {
         //if ball touch top
         ball.velocityy *= -1/1.05;
+        ball.y = 0;
     }
     else if (ball.x <= 0 || (ball.x +ball.width) >= boardwidth){
         ball.velocityx *= -1/1.05;
