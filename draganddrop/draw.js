@@ -1,6 +1,6 @@
 const canvas = document.getElementById("drawingboard");
 const brush = document.getElementById("brush");
-const eraser = document.getElementById("eraser");
+// const eraser = document.getElementById("eraser");
 const ctx = canvas.getContext("2d");
 
 // vertical and horizontal offsets:
@@ -48,35 +48,74 @@ const draw = (e) => {
 //     startY = e.clientY;
 // });
 
-brush.addEventListener("mouseup", (e) => {
-    isPaintingM= false;
-    ctx.stroke();
-    ctx.beginPath();
+// canvas.addEventListener("mouseup", (e) => {
+//     isPaintingM= false;
+//     ctx.stroke();
+//     ctx.beginPath();
+// });
+// eraser.addEventListener("mouseup", (e) => {
+//     isPaintingM = false;
+//     ctx.stroke();
+//     ctx.beginPath();
+// });
+
+canvas.addEventListener("mousemove", draw);
+
+// brush.addEventListener("click", e => {
+
+//     if(e.currentTarget.id === "orange"){
+//         ctx.strokeStyle = "#d45500";
+//         console.log(ctx.strokeStyle);
+//     }
+//     else if(e.currentTarget.id === "eraser"){
+//         ctx.strokeStyle = "#fefefe";
+//         console.log(ctx.strokeStyle);
+//     }
+//     else if(e.target.id === "bloodorange"){
+//         ctx.strokeStyle = "#ff3e31";
+//     }
+//     else if(e.target.id === "lime"){
+//         ctx.strokeStyle = "#44aa00";
+//     }
+//     else if(e.target.id === "lemon"){
+//         ctx.strokeStyle = "#ffcc00";
+//     }
+ 
+    
+// });
+
+canvas.addEventListener("mousedown", (e) => {
+    isPaintingM = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    //console.log("touch");
 });
-eraser.addEventListener("mouseup", (e) => {
+
+canvas.addEventListener("mouseup", (e) => {
     isPaintingM = false;
     ctx.stroke();
     ctx.beginPath();
 });
 
-canvas.addEventListener("mousemove", draw);
+// brush.addEventListener("mousedown", (e) => {
+//     ctx.strokeStyle = e.target.value;
+//     isPaintingM = true;
+//     startX = e.clientX;
+//     startY = e.clientY; 
+// });
+// eraser.addEventListener("mousedown", (e) => {
+//     isPaintingM = true;
+//     ctx.strokeStyle = "#fefefe";
+//     startX = e.clientX;
+//     startY = e.clientY;
+//     console.log("mousedown");
+// });
 
-brush.addEventListener("mousedown", (e) => {
-    isPaintingM = true;
-    ctx.strokeStyle = "#d45500";
-    startX = e.clientX;
-    startY = e.clientY; 
-});
-eraser.addEventListener("mousedown", (e) => {
-    isPaintingM = true;
-    ctx.strokeStyle = "#fefefe";
-    startX = e.clientX;
-    startY = e.clientY;
-    console.log("mousedown");
-});
 
-brush.addEventListener("mousemove", draw);
-eraser.addEventListener("mousemove", draw);
+
+
+//brush.addEventListener("mousemove", draw);
+//eraser.addEventListener("mousemove", draw);
 
 
 // mobile friendly mode: 
@@ -84,20 +123,22 @@ eraser.addEventListener("mousemove", draw);
 //  - select mode by tapping the orange or eraser
 //  - normal event listner for canvas
 
-canvas.addEventListener("touchmove", draw);
+//canvas.addEventListener("touchmove", draw);
 
 // canvas.addEventListener("touchmove", e => {
 //     console.log("Move");
 // });
 
-brush.addEventListener("touchstart", (e) => {
-    ctx.strokeStyle = "#d45500";
-    lineWidth = 48;
+// brush.addEventListener("touchstart", (e) => {
+//     ctx.strokeStyle = "#d45500";
+//     lineWidth = 48;
 
-});
-eraser.addEventListener("touchstart", (e) => {
-    ctx.strokeStyle = "#fefefe";
-    lineWidth = 48;
+// });
+
+canvas.addEventListener("touchmove", draw);
+
+brush.addEventListener("touchstart", (e) => {
+   
     
 });
 
@@ -113,3 +154,24 @@ canvas.addEventListener("touchend", (e) => {
     ctx.stroke();
     ctx.beginPath();
 });
+
+
+
+function orange(){
+ctx.strokeStyle = "#d45500";
+}
+
+function eraser(){
+    ctx.strokeStyle =  "#fefefe";
+}
+
+function bloodorange(){
+    ctx.strokeStyle =  "#ff3e31";
+}
+function lime(){
+    ctx.strokeStyle = "#44aa00";
+}
+
+function lemon(){
+    ctx.strokeStyle = "#ffcc00";
+}
