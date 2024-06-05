@@ -111,14 +111,14 @@ window.onload = function (){
             delx = dely = 1;
         }
         powerfactor = Math.sqrt(Math.pow(delx,2) + Math.pow(dely,2));
-        if(powerfactor > 100){
-            powerfactor = 100;
+        if(powerfactor > 250){
+            powerfactor = 250;
         }
-        else if(powerfactor < 20){
-            powerfactor = 20;
+        else if(powerfactor < 25){
+            powerfactor = 25;
         }
         console.log(powerfactor);
-        power = powerfactor/2;
+        power = powerfactor/5;
         console.log(power);
         angle = Math.atan(dely/delx);
 
