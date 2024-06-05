@@ -23,3 +23,19 @@ body{
       }
 }
 
+input[type=number]{
+  /* -moz-appearance: textfield; */
+    border: #fefefe;
+    border-radius: 10%;
+    background-color: #454545;
+    color: #fefefe;
+    font-size: 20;
+    border-width: 5px;
+   
+}
+
+label{
+    display: inline-block;
+    font-size: 16px;
+
+}
