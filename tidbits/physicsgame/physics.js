@@ -177,18 +177,21 @@ function update(){
     }
     else if (ball.x <= 0 || (ball.x +ball.width) >= boardwidth){
         ball.velocityx *= -1/1.05;
-       (ball.x <=0) ? (ball.x = boardwidth/80) : (ball.x = boardwidth-boardwidth/80);
+       (ball.x <=0) ? (ball.x = 0) : (ball.x = boardwidth-ballwidth);
     }
     else if (ball.y + ball.height >= boardheight){
         //if the ball touches the bottom
         ball.velocityy *= -1/1.05;
-        ball.y = 625;
-}
-    if (Math.abs(ball.velocityx) < 0.2){
+        ball.y = boardheight-ballheight;
+    }
+    if (Math.abs(ball.velocityx) < 0.02){
         ball.velocityx = 0;
     }
-    else if(Math.abs(ball.velocityy) < 0.2){
+    else if(Math.abs(ball.velocityy) < 0.02){
         ball.velocityy = 0;
+    }
+    else{
+        return;
     }
     //  else if(Math.abs(ball.velocityy) > 20){
     //      ball.velocityy = 19;
