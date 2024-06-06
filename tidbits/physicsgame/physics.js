@@ -12,7 +12,7 @@ let vely = 0;
 let g = document.getElementById("Gravity").value;        
 let accelx;
 let accely; 
-let ar = document.getElementById("Air Resistance").value;
+let ar = document.getElementById("Air Resistance").value;             //initalise nonsense
 let ballwidth = 25;
 let ballheight = 25;
 
