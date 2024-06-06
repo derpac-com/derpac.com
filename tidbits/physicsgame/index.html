@@ -31,17 +31,17 @@
         <canvas id="board"></canvas> 
     </div>
 
-    <div class="foot" style="position: absolute; bottom: 20px; color: #fefefe;"> 
+    <div id="foot" class="foot" style="position: absolute; bottom: 20px; color: #fefefe;"> 
         
        <h1>click, drag and release to shoot the blob!</h1>
        <h2>reload the page to set the values or if it goes wrong</h2>
        
 
        <label for="Gravity">Gravity:</label>
-       <input id="Gravity" type="number" value="9.81" step="1" onchange="ing(this.value)">
+       <input id="Gravity" type="number" value="9.81" step="1" onchange="ing()">
   
        <label for="Air Resistance">Air Resistance:</label>
-       <input id="Air Resistance" type="number" value="0.08" step="0.01" min="0.01" max="0.95" onchange="inar(this.value)">
+       <input id="Air Resistance" type="number" value="0.08" step="0.01" min="0.01" max="0.95" onchange="inar()">
     
      
 
