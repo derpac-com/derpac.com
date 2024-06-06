@@ -93,7 +93,7 @@
         left: 0px;
         right: 0px;
         ">
-        <canvas id="drawingboard" style="height: 100%; width: 100%;"></canvas> 
+        <canvas id="drawingboard" style="height: 100%; width: 100%;" ref={canvasRef}></canvas> 
     </div>
     
     <div class="headtitle">
@@ -124,14 +124,12 @@
 
 
                 <button id="eraser" onclick="eraser()">
-                    <img class="drag" src="/tidbits/eraser.png" width="50px" height="50px">
+                    <img class="drag" src="/tidbits/fruits/eraser.png" width="50px" height="50px">
                 </button>
-
                 
-
-                
-
-
+                <button id="download_image_link" href="download_link" onclick="saveImage()">
+                    <img class="drag" src="/tidbits/fruits/save.png" width="50px" height="50px">
+                </button>
 
             </div>
         </section>
