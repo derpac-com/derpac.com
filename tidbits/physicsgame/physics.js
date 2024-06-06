@@ -9,13 +9,21 @@ let power = 0;
 let angle = 0;
 let velx = 0;
 let vely = 0;
-const g = document.getElementById("Gravity").value;
+let g = document.getElementById("Gravity").value;        
 let accelx;
 let accely; 
-const ar = document.getElementById("Air Resistance").value;
+let ar = document.getElementById("Air Resistance").value;
 let ballwidth = 25;
 let ballheight = 25;
 
+const ing = event =>{                                     //changes the gravity and air resistance live
+    //console.log("grav cha");      
+    g = document.getElementById("Gravity").value;
+    console.log(g);
+}
+const inar = event =>{                          
+    ar = document.getElementById("Air Resistance").value;
+}
 
 
 let ball = {
@@ -36,16 +44,16 @@ window.onload = function (){
 
 
     
-     document.addEventListener("mousedown", e => {
+     document.addEventListener("mousedown", e => {          //listen for mousedown and log the inital x and y coordinates
         initx = e.clientX/2;
         inity = ((e.clientY/-2)-135);
         console.log(initx,inity);
      });
-     document.addEventListener("mouseup", e =>{
+     document.addEventListener("mouseup", e =>{         // listen for a mouseup and log the final x and y
         finx = e.clientX/2 ;
         finy = ((e.clientY/-2)-135);
         console.log(finx, finy);
-        shoot();
+        shoot();               //call the shoot function to do the rest of the maths and assign the correct power and angle
      });
 
 
@@ -63,13 +71,13 @@ window.onload = function (){
         let BL = false;
         let TL = false;
         let TR = false;
-        let ballcenterx = (ball.x + ballwidth)/2;
+        let ballcenterx = (ball.x + ballwidth)/2;             //calculate the ball center
         let ballcentery = (ball.y + ballheight)/-2;
-        let balloffsetx = ballcenterx - finx;
+        let balloffsetx = ballcenterx - finx;                // calculate the offset from the cursor and the ball
         let balloffsety = ballcentery - finy;
         console.log(ballcenterx,ballcentery);
-        console.log(balloffsetx,balloffsety);
-        if((Math.sign(balloffsetx) == 1) && (Math.sign(balloffsety) == 1)){         //    Positive Positive
+        console.log(balloffsetx,balloffsety);                                       // the following statement checks the sign of the number of the offset and confirms its quadrant
+        if((Math.sign(balloffsetx) == 1) && (Math.sign(balloffsety) == 1)){         //    Positive Positive represents a Back left (BL) quadrant 
             BL = true;
 
             TL = false;
@@ -77,7 +85,7 @@ window.onload = function (){
             BR = false;
             console.log("BL");
         }
-        else if((Math.sign(balloffsetx) == 1) && (Math.sign(balloffsety) == -1)){    // Positive Negative
+        else if((Math.sign(balloffsetx) == 1) && (Math.sign(balloffsety) == -1)){    // Positive Negative (Top Left)
             let BR = false;
             let BL = false;
             let TR = false;
@@ -87,7 +95,7 @@ window.onload = function (){
         
             console.log("TL");
         }
-        else if((Math.sign(balloffsetx) == -1) && (Math.sign(balloffsety) == -1)){  // Negative Negative
+        else if((Math.sign(balloffsetx) == -1) && (Math.sign(balloffsety) == -1)){  // Negative Negative   (Top Right)
             let BR = false;
             let BL = false;
             let TL = false;
@@ -96,7 +104,7 @@ window.onload = function (){
             console.log("TR");
           
         } 
-        else if((Math.sign(balloffsetx) == -1) && (Math.sign(balloffsety) == 1)){      // Negative Positive
+        else if((Math.sign(balloffsetx) == -1) && (Math.sign(balloffsety) == 1)){      // Negative Positive     (Back right)
             let BL = false;
             let TL = false;
             let TR = false;
@@ -105,14 +113,14 @@ window.onload = function (){
             console.log("BR");
         }
 
-        let delx = initx - finx;
+        let delx = initx - finx;             //find the change in x and y coordinates 
         let dely = inity - finy;
-        if((delx <= 0) && (dely <= 0)){
+        if((delx <= 0) && (dely <= 0)){       //set dely and delx to 1 if they are 0 to avoid a glitch when clicking on the screen
             delx = dely = 1;
         }
-        powerfactor = Math.sqrt(Math.pow(delx,2) + Math.pow(dely,2));
+        powerfactor = Math.sqrt(Math.pow(delx,2) + Math.pow(dely,2));      //use pythag to find the power
         if(powerfactor > 250){
-            powerfactor = 250;
+            powerfactor = 250; 
         }
         else if(powerfactor < 25){
             powerfactor = 25;
@@ -120,13 +128,13 @@ window.onload = function (){
         console.log(powerfactor);
         power = powerfactor/5;
         console.log(power);
-        angle = Math.atan(dely/delx);
+        angle = Math.atan(dely/delx);            //obtain the angle of departure with trig
 
-        let xvel = Math.cos(angle)*power;
+        let xvel = Math.cos(angle)*power;       // obtain the x and y power with trig
         let yvel = Math.sin(angle)*power;
 
         if(BL){
-            ball.velocityx +=  xvel;
+            ball.velocityx +=  xvel;         // assign the power with the correct directions based off the quadrant
             ball.velocityy -= yvel;
         }
         else if(TL){
@@ -146,12 +154,7 @@ window.onload = function (){
         }
 }
 
-function ing(val){
-    g = val;
-}
-function inar(val){
-    ar = val;
-}
+
 
 }
 
@@ -159,14 +162,14 @@ function update(){
     requestAnimationFrame(update);
     
     context.clearRect(0, 0, board.width, board.height);
-    ball.velocityy += g/10;
+    ball.velocityy += g/10;                                     //apply gravity and air resitance to the velocity every tick
     ball.velocityy -= ar*ball.velocityy;
     ball.velocityx -= ar*ball.velocityx;
     //draw and update ball
     context.fillStyle = "#d45500";
     ball.x += ball.velocityx;
     ball.y += ball.velocityy;
-    context.fillRect(ball.x, ball.y, ball.width, ball.height);
+    context.fillRect(ball.x, ball.y, ball.width, ball.height);          
 
     //bounce ball off walls
 
@@ -177,14 +180,14 @@ function update(){
     }
     else if (ball.x <= 0 || (ball.x +ball.width) >= boardwidth){
         ball.velocityx *= -1/1.05;
-       (ball.x <=0) ? (ball.x = 0) : (ball.x = boardwidth-ballwidth);
+       (ball.x <=0) ? (ball.x = 0) : (ball.x = boardwidth-ballwidth);      //if ball touches the sides
     }
     else if (ball.y + ball.height >= boardheight){
         //if the ball touches the bottom
         ball.velocityy *= -1/1.05;
         ball.y = boardheight-ballheight;
     }
-    if (Math.abs(ball.velocityx) < 0.02){
+    if (Math.abs(ball.velocityx) < 0.02){           //at a certain velocity set it to 0 so it stops
         ball.velocityx = 0;
     }
     else if(Math.abs(ball.velocityy) < 0.02){
@@ -193,23 +196,7 @@ function update(){
     else{
         return;
     }
-    //  else if(Math.abs(ball.velocityy) > 20){
-    //      ball.velocityy = 19;
-    //  }
 
 }
 
 
-
-// listeners so i can move the ball
-
-// cursor velocity calculation
-
-// function vely(){
-
-// }
-
-// function velx(){
-
-
-// 
