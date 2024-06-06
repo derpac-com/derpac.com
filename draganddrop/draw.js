@@ -30,7 +30,7 @@ const saveImage = event => {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-};
+}
 
 const draw = (e) => {
     if(!isPaintingM && !isPaintingT){
