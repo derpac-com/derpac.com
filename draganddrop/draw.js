@@ -20,6 +20,18 @@ let startX;
 let startY;
 ctx.strokeStyle = "#d45500";
 
+
+const saveImage = event => {
+    console.log("save");
+    let link = document.createElement("a");
+    let image = canvas.toDataURL("image/png");
+    link.download = "canvas.png";
+    link.href = image;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+};
+
 const draw = (e) => {
     if(!isPaintingM && !isPaintingT){
         return;
