@@ -48,34 +48,33 @@ function whatcol(){
     let pHPink = (hexUB << 16) | (hexLB << 8) | hexMB;
 
 
+
     console.log(pRed, pBlue, pGreen);
 
-    document.getElementById("red").style.backgroundColor = pRed.toString(16);
-    document.getElementById("orange").style.backgroundColor = pOrange.toString(16);
-    document.getElementById("yellow").style.backgroundColor = pYellow.toString(16);
-    document.getElementById("green").style.backgroundColor = pGreen.toString(16);
-    document.getElementById("cyan").style.backgroundColor = pCyan.toString(16);
-    document.getElementById("blue").style.backgroundColor = pBlue.toString(16);
-    document.getElementById("purple").style.backgroundColor = pDPurple.toString(16);
-    document.getElementById("pink").style.backgroundColor = pHPink.toString(16);
 
-    document.getElementById("redheader").textContent = "#" + pRed.toString(16);
-    document.getElementById("orangeheader").textContent = "#" + pOrange.toString(16);
-    document.getElementById("yellowheader").textContent = "#" + pYellow.toString(16);
-    document.getElementById("greenheader").textContent = "#" + pGreen.toString(16);
-    document.getElementById("cyanheader").textContent = "#" + pCyan.toString(16);
-    document.getElementById("blueheader").textContent = "#" + pBlue.toString(16);
-    document.getElementById("purpleheader").textContent = "#" + pDPurple.toString(16);
-    document.getElementById("pinkheader").textContent = "#" + pHPink.toString(16);
- 
+    document.getElementById("red").style.backgroundColor = intoHex(pRed);
+    document.getElementById("orange").style.backgroundColor = intoHex(pOrange);
+    document.getElementById("yellow").style.backgroundColor = intoHex(pYellow);
+    document.getElementById("green").style.backgroundColor = intoHex(pGreen);
+    document.getElementById("cyan").style.backgroundColor = intoHex(pCyan);
+    document.getElementById("blue").style.backgroundColor = intoHex(pBlue);
+    document.getElementById("purple").style.backgroundColor = intoHex(pDPurple);
+    document.getElementById("pink").style.backgroundColor = intoHex(pHPink);
 
+    document.getElementById("redheader").textContent = "#" + intoHex(pRed);
+    document.getElementById("orangeheader").textContent = "#" + intoHex(pOrange);
+    document.getElementById("yellowheader").textContent = "#" + intoHex(pYellow);
+    document.getElementById("greenheader").textContent = "#" + intoHex(pGreen);
+    document.getElementById("cyanheader").textContent = "#" + intoHex(pCyan);
+    document.getElementById("blueheader").textContent = "#" + intoHex(pBlue);
+    document.getElementById("purpleheader").textContent = "#" + intoHex(pDPurple);
+    document.getElementById("pinkheader").textContent = "#" + intoHex(pHPink);
 }
 
-
-
-function intoHex(intValue){
-    let hexString = intValue.toString(16);
-    hexString = hexString.toUpperCase();
-    return '0x' + hexString;
-
+function intoHex(hexin){
+    let hexstring = hexin.toString(16).toUpperCase();
+    while(hexstring.length < 6){
+        hexstring = "0" + hexstring;
+    }
+    return hexstring;
 }
