@@ -1,0 +1,156 @@
+body {
+	font-family: "Open Sans", sans-serif;
+	color: #454545;
+	font-size: 16px;
+	margin: 1em auto;
+	max-width: 100%;
+	padding: 2em;
+	line-height: 1.4;
+	text-align: justify;
+	background-color: #fefefe;
+}
+
+a { color: #07a; }
+a:visited { color: #941352; }
+
+
+.form {
+    --width-of-input: 200px;
+    --border-height: 1px;
+    --border-before-color: rgba(221, 221, 221, 0.39);
+    --border-after-color: #8A5353;
+    --input-hovered-color: #EBDEDE;
+    position: relative;
+    width: var(--width-of-input);
+   }
+   /* styling of Input */
+
+.input {
+    color: #585858;
+    font-size: 0.9rem;
+    background-color: transparent;
+    width: 100%;
+    box-sizing: border-box;
+    padding-inline: 0.5em;
+    padding-block: 0.7em;
+    border: none;
+    border-bottom: var(--border-height) solid var(--border-before-color);
+   }
+   /* styling of animated border */
+   .input-border {
+    position: absolute;
+    background: var(--border-after-color);
+    width: 0%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    transition: 0.3s;
+   }
+   /* Hover on Input */
+   input:hover {
+    background: var(--input-hovered-color);
+   }
+   
+   input:focus {
+    outline: none;
+   }
+   /* here is code of animated border */
+   input:focus ~ .input-border {
+    width: 100%;
+   }
+   /* === if you want to do animated border on typing === */
+   /* remove input:focus code and uncomment below code */
+   /* input:valid ~ .input-border{
+     width: 100%;
+   } */
+
+   ul{
+    list-style-type: "→  ";
+   
+   }
+
+   #list {
+    column-count: 1; /* Number of columns */
+            column-gap: 20px; /* Space between columns */
+            padding: 10px;
+            width: 50%;
+   }
+
+   #list li {
+    background: #EBDEDE;
+    margin: 5px;
+    padding: 10px;
+    border: 1px solid #ddd;
+   
+}
+
+.wrapper{
+    display: inline;
+    width: 100%;
+}
+#compare {
+    margin-top: 20px;
+    display: flex;
+    align-items: center; /* Center items vertically */
+}
+#compare p {
+    margin: 0 10px; /* Adjust margin as needed */
+    flex-shrink: 0; /* Prevent the text from shrinking */
+}
+#compare button {
+    margin: 0
+     5px; /* Adjust margin as needed */
+    white-space: nowrap; /* Prevent text from wrapping */
+    flex-shrink: 0; /* Prevent the buttons from shrinking */
+}
+
+.button-style {
+  background-color: #ebdede;
+  border: 0 solid #ebdede;
+  border-radius: 1.5rem;
+  box-sizing: border-box;
+  color: #585858;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Basier circle",-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1;
+  padding: 1rem 1.6rem;
+  text-align: center;
+  text-decoration: none #585858 solid;
+  text-decoration-thickness: auto;
+  transition: all .1s cubic-bezier(.4, 0, .2, 1);
+  box-shadow: 3px 3px 3px rgba(166, 175, 195, 0.25);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-style:hover {
+  background-color: #8B6969;
+  color: #fff;
+}
+
+@media (min-width: 768px) {
+  .button-style {
+    font-size: 1.125rem;
+    padding: 1rem 2rem;S
+  }
+}
+
+
+
+#sortedList {
+    column-count: 1; /* Number of columns */
+            column-gap: 20px; /* Space between columns */
+            padding: 10px;
+            width: 50%;
+}
+
+#sortedList li{
+    background: #DEEBDE;
+    margin: 5px;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
