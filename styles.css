@@ -1,13 +1,31 @@
-body {
-	font-family: "Open Sans", sans-serif;
+.hover-text span {
 	color: #454545;
-	font-size: 16px;
-	margin: 2em auto;
-	max-width: 800px;
-	padding: 1em;
-	line-height: 1.4;
-	text-align: justify;
-	background-color: #fefefe;
+	transition: color 0.3s;
+}
+.hover-text span.center {
+	color: #b8b8b8;
+	font-weight: 900;
+	font-size: 64px;
+}
+.hover-text span.adjacent {
+	color: #585858 ;
+	font-weight: 800;
+	font-size: 58px;
+}
+.hover-text span.far-adjacent {
+	color: #383838; 
+	font-weight: 700;
+}
+body {
+font-family: "Open Sans", sans-serif;
+color: #454545;
+font-size: 24px;
+margin: 2em auto;
+max-width: 800px;
+padding: 1em;
+line-height: 1.4;
+text-align: justify;
+background-color: #fefefe;
 }
 
 a { color: #07a; }
@@ -42,5 +60,3 @@ details {
 li {
 	margin-bottom: 1em;
 }
-
-
