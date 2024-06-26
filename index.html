@@ -1,9 +1,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" />
+<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" /> -->
 <link rel="stylesheet" type="text/css" href="/styles.css" />
-<link rel="icon" type="image/x-icon" href="/tidbits/orangelogo.png">
+<link rel="icon" type="image/x-icon" href="/tidbits/breakout/starp.png">
 
 
 <title>derpac.</title>
@@ -13,12 +13,40 @@
 </head>
 
 <body>
-<h1>
-    derpac.
-</h1>
+<h1 class="hover-text">
+    derpac.</h1>
 <h2>check out my <a href = "https://blog.derpac.com/read">blog</a>, my </a><a href="https://github.com/derpac">github</a> or other <a href="/tidbits">tidbits</a></h2>
 
-<p>built with ❤ by <a href="https://alv.cx">alv</a> (and a bit by der) for derpac</p>
+<p>designed with ❤ by <a href="https://alv.cx">alv</a> (and a bit by der) for derpac</p>
+
+<script>
+    
+    const hoverText = document.querySelector('.hover-text');
+    const text = hoverText.textContent;
+    hoverText.textContent = '';
+    text.split('').forEach((char, index) => {
+        const span = document.createElement('span');
+        span.textContent = char;
+        span.dataset.index = index;
+        hoverText.appendChild(span);
+    });
+    const highlightLetters = (index) => {
+        const spans = document.querySelectorAll('.hover-text span');
+        spans.forEach(span => span.classList.remove('center', 'adjacent', 'far-adjacent'));
+        if (index > 1) spans[index - 2].classList.add('far-adjacent');
+        if (index > 0) spans[index - 1].classList.add('adjacent');
+        spans[index].classList.add('center');
+        if (index < spans.length - 1) spans[index + 1].classList.add('adjacent');
+        if (index < spans.length - 2) spans[index + 2].classList.add('far-adjacent');
+    };
+    document.querySelectorAll('.hover-text span').forEach((span, index) => {
+        span.addEventListener('mouseover', () => highlightLetters(index));
+        span.addEventListener('mouseout', () => {
+            document.querySelectorAll('.hover-text span').forEach(span => span.classList.remove('center', 'adjacent', 'far-adjacent'));
+        });
+    });
+</script>
+
 <!-- hiya! -->
 </body>
 
