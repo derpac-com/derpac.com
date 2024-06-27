@@ -8,12 +8,12 @@
 	font-size: 64px;
 }
 .hover-text span.adjacent {
-	color: #585858 ;
+	color: #848484 ;
 	font-weight: 800;
 	font-size: 58px;
 }
 .hover-text span.far-adjacent {
-	color: #383838; 
+	color: #606060; 
 	font-weight: 700;
 }
 body {
@@ -29,7 +29,7 @@ background-color: #fefefe;
 }
 
 a { color: #07a; }
-a:visited { color: #941352; }
+a:visited { color: #D36A23; }
 
 img[class="centered"] {
 	margin: 0 auto;
