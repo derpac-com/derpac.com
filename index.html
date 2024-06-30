@@ -22,29 +22,44 @@
 <script>
     
     const hoverText = document.querySelector('.hover-text');
-    const text = hoverText.textContent;
-    hoverText.textContent = '';
-    text.split('').forEach((char, index) => {
-        const span = document.createElement('span');
-        span.textContent = char;
-        span.dataset.index = index;
-        hoverText.appendChild(span);
-    });
-    const highlightLetters = (index) => {
-        const spans = document.querySelectorAll('.hover-text span');
-        spans.forEach(span => span.classList.remove('center', 'adjacent', 'far-adjacent'));
-        if (index > 1) spans[index - 2].classList.add('far-adjacent');
-        if (index > 0) spans[index - 1].classList.add('adjacent');
-        spans[index].classList.add('center');
-        if (index < spans.length - 1) spans[index + 1].classList.add('adjacent');
-        if (index < spans.length - 2) spans[index + 2].classList.add('far-adjacent');
+const text = hoverText.textContent;
+hoverText.textContent = '';
+text.split('').forEach((char, index) => {
+    const span = document.createElement('span');
+    span.textContent = char;
+    span.dataset.index = index;
+    hoverText.appendChild(span);
+});
+
+const highlightLetters = (index) => {
+    const spans = document.querySelectorAll('.hover-text span');
+    spans.forEach(span => span.classList.remove('center', 'adjacent', 'far-adjacent'));
+
+    const applyClass = (element, className) => {
+        if (element) {
+            requestAnimationFrame(() => {
+                element.classList.add(className);
+            });
+        }
     };
-    document.querySelectorAll('.hover-text span').forEach((span, index) => {
-        span.addEventListener('mouseover', () => highlightLetters(index));
-        span.addEventListener('mouseout', () => {
-            document.querySelectorAll('.hover-text span').forEach(span => span.classList.remove('center', 'adjacent', 'far-adjacent'));
+
+    if (index > 1) applyClass(spans[index - 2], 'far-adjacent');
+    if (index > 0) applyClass(spans[index - 1], 'adjacent');
+    applyClass(spans[index], 'center');
+    if (index < spans.length - 1) applyClass(spans[index + 1], 'adjacent');
+    if (index < spans.length - 2) applyClass(spans[index + 2], 'far-adjacent');
+};
+
+document.querySelectorAll('.hover-text span').forEach((span, index) => {
+    span.addEventListener('mouseover', () => highlightLetters(index));
+    span.addEventListener('mouseout', () => {
+        document.querySelectorAll('.hover-text span').forEach(span => {
+            requestAnimationFrame(() => {
+                span.classList.remove('center', 'adjacent', 'far-adjacent');
+            });
         });
     });
+});
 </script>
 
 <!-- hiya! -->
