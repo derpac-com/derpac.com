@@ -1,20 +1,23 @@
 .hover-text span {
 	color: #454545;
-	transition: color 0.3s;
+	transition: transfor, 0.3s, color 0.5s;
 }
 .hover-text span.center {
 	color: #b8b8b8;
 	font-weight: 900;
 	font-size: 64px;
+	transform: scale(1.2);
 }
 .hover-text span.adjacent {
 	color: #848484 ;
 	font-weight: 800;
 	font-size: 58px;
+	transform: scale(1.1);
 }
 .hover-text span.far-adjacent {
 	color: #606060; 
 	font-weight: 700;
+	transform: scale(1.05);
 }
 body {
 font-family: "Open Sans", sans-serif;
