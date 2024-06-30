@@ -56,7 +56,38 @@ window.onload = function (){
         shoot();               //call the shoot function to do the rest of the maths and assign the correct power and angle
      });
 
-
+     document.addEventListener("keydown", e =>{
+        if(e.repeat){
+            return;
+        }
+        else{
+            switch(e.key) {
+                case 'w':
+                case 'W':
+                    //console.log('W');
+                    ball.velocityy -= 20;
+                    break;
+                case 'a':
+                case 'A':
+                    //console.log('A');
+                    ball.velocityx -= 20;
+                    break;
+                case 's':
+                case 'S':
+                    //console.log('S');
+                    ball.velocityy += 20;
+                    break;
+                case 'd':
+                case 'D':
+                    //console.log('D');
+                    ball.velocityx += 20;
+                    break;
+                default:
+              
+                    break;
+        }
+        }
+     });
 
      let BR = false;
      let BL = false;
