@@ -1,9 +1,7 @@
-
-
-let board;
+const board = document.getElementById("board");
 let context;
-let boardheight = 650;
-let boardwidth = 1900;
+let boardheight =  board.getBoundingClientRect().height;
+let boardwidth =   board.getBoundingClientRect().width;
 
 let power = 0;
 let angle = 0;
@@ -36,13 +34,13 @@ let ball = {
 }
 
 window.onload = function (){
-    board = document.getElementById("board");
-    board.height = boardheight;
-    board.width = boardwidth;
+  
+
     context = board.getContext("2d"); //used for drawing on the board
     requestAnimationFrame(update);
 
-
+    board.width = boardwidth;
+    board.height = boardheight
     
      document.addEventListener("mousedown", e => {          //listen for mousedown and log the inital x and y coordinates
         initx = e.clientX/2;
