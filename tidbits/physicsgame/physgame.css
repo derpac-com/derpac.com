@@ -1,23 +1,20 @@
 body{
-    text-align: center;
     font-family: "Open Sans", sans-serif;
-	color: #454545;
-	font-size: 16px;
-	/* margin: 2em auto; */
-	/* max-width: 1000px; */
-	/* padding: 1em; */
-	/* line-height: 1.4; */
-	background-color: #454545;
-    height: 100vh;
-    width: 100vw;
+        color: #454545;
+        font-size: 16px;
+        margin: 2em auto;       
+        max-width: 800px;
+        padding: 1em;
+        line-height: 1.4;
+        background-color: #454545;
     
 }
 #board{
     background-color: #fefefe;
-    /* border-top: 5px solid #ab4642 ;
     border-right: 5px solid #ab4642 ;
     border-left: 5px solid #ab4642 ;
-    border-bottom: 5px solid #ab4642 ; */
+    border-bottom: 5px solid #ab4642 ;
+
 
     .roboto-regular {
         font-family: "Roboto", sans-serif;
@@ -47,5 +44,9 @@ label{
 
 .container-fluid{
     height: 85%;
-    
+    position: absolute;
+    bottom: 20px;
+    top: 10px;
+    left: 10px;
+    right: 20px;
 }
