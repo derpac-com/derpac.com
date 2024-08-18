@@ -1,6 +1,6 @@
 const container = document.getElementById("flex-container");
-title = ["d","e","r","p","i","c","","i","s","","c","u","r","r","e","n","t","l","y","","d","o","w","n"];
-const weirdCharacters = "!@#$%^&*()_+-=<>?[]{}|~><.,der";
+title = ["d","e","r","p","i","c","","i","s","","d","o","w","n"];
+const weirdCharacters = "!@#$%^&*()_+-=<>?[]{}|~><.,derpic";
 
 function getRandomCharacter() {
     return weirdCharacters[Math.floor(Math.random() * weirdCharacters.length)];
@@ -18,9 +18,5 @@ for(let i = 0; i < title.length; i++){
         this.textContent = getRandomCharacter();
     });
 
-    // Add mouseout event to revert text back to original
-    // letter.addEventListener('mouseout', function() {
-    //     this.textContent = this.originalText;
-    // });
 }
 
