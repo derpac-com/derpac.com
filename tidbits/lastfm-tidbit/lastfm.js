@@ -1,5 +1,5 @@
-var apiKey = "721f2a421b78039ea77af1611373cea5";
-var sharedSecret = "5647263bccba624d7535a1edacf41ee9";
+var apiKey = "b87d33ceea7144e501cb8dab7b2e30ef";
+var sharedSecret = "b101531f79c82ceb222b00b07bdf1677";
 var apiUrl = `http://www.last.fm/api/auth/?${apiKey}`
 
 
