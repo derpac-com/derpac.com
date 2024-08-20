@@ -9,6 +9,7 @@
 
     <div id="tracks"></div>
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.18.0/js/md5.min.js"></script>
 <script>
         async function getSessionKey(token) {
             const signature = md5(`api_key${apiKey}methodauth.getSessiontoken${token}${apiSecret}`);
@@ -46,5 +47,5 @@
 
         handlePostAuth();
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.18.0/js/md5.min.js"></script>
+
 </html>
