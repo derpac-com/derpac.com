@@ -1,5 +1,5 @@
-var apiKey = "b87d33ceea7144e501cb8dab7b2e30ef";
-var apiSecret = "b101531f79c82ceb222b00b07bdf1677";
+var apiKey = "2c5491d01f95d7366d37f03f6130de30";
+var apiSecret = "25a80c63a6eeeea44229dd7e5b7385da";
 
 const url = `https://ws.audioscrobbler.com/2.0/?method=auth.getToken&api_key=${apiKey}&format=json`;
 
@@ -11,9 +11,9 @@ async function getToken() {
 }
 
 function redirectToLastFmAuth(token) {
-    const callbackUrl = encodeURIComponent('https://derpac.com/tidbits/lastfm-tidbit/');
-    const authUrl = `http://www.last.fm/api/auth/?api_key=${apiKey}&token=${token}&cb="${callbackUrl}`;
-    window.location.href = authUrl;
+    const callbackUrl = encodeURIComponent('https://derpac.com/tidbits/lastfm-tidbit/authed/');
+    const authUrl = `https://www.last.fm/api/auth/?api_key=${apiKey}&token=${token}&cb=${callbackUrl}`;
+    window.open(authUrl, '_blank');
 }
 
 async function getSessionKey(token) {
@@ -53,20 +53,23 @@ button.addEventListener("click", async () => {
 let username = input.value;
 //then post auth:
 // console.log(username);
-async function handlePostAuth() {
-    const params = new URLSearchParams(window.location.search);
-    if (params.has('token')) {
-        const token = params.get('token');
-        const sessionKey = await getSessionKey(token);
-        const user = username;  // Replace with the Last.fm username
-        const tracks = await getUserRecentTracks(user, sessionKey);
 
-        // Display the tracks on the page
-        const tracksDiv = document.getElementById('tracks');
-        tracksDiv.innerHTML = tracks.map(track => `
-            <p>${track.artist['#text']} - ${track.name}</p>
-        `).join('');
-    }
-}
 
-handlePostAuth();
+// async function handlePostAuth() {
+//     const params = new URLSearchParams(window.location.search);
+//     if (params.has('token')) {
+//         console.log("gamer!!!!");
+//         const token = params.get('token');
+//         const sessionKey = await getSessionKey(token);
+//         const user = "derapc";  // Replace with the Last.fm username
+//         const tracks = await getUserRecentTracks(user, sessionKey);
+
+//         // Display the tracks on the page
+//         const tracksDiv = document.getElementById('tracks');
+//         tracksDiv.innerHTML = tracks.map(track => `
+//             <p>${track.artist['#text']} - ${track.name}</p>
+//         `).join('');
+//     }
+// }
+
+// handlePostAuth();
