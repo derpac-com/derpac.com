@@ -12,6 +12,7 @@ Shared secret 	07e2542cb2c5522881a7fa691af89ddc -->
 <body>
     <h1>Last.fm Authentication Example</h1>
     <button id="authButton">Authenticate with Last.fm</button>
+    <button id="generate" onclick="callback()">Generate tracks</button>
     <div id="tracks"></div>
 
     <script>
@@ -73,6 +74,9 @@ Shared secret 	07e2542cb2c5522881a7fa691af89ddc -->
         // }
 
         // handlePostAuth();
+        function callback(){
+            window.location.href = `https://derpac.com/tidbits/lastfm-tidbit/callback?${token}`
+        }
     </script>
 
     <!-- Include the MD5 library -->
