@@ -1,7 +1,6 @@
- 	
-
-<!-- API key 	48023b8774595b0846917fad63fe2c9d
-Shared secret 	9b9e5dab73d3317c88ad6dd49ca08f5b-->
+<!--  	
+API key 	61eed0aed6dba19c4bbeb2222ed6fa3a
+Shared secret 	07e2542cb2c5522881a7fa691af89ddc -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -16,8 +15,8 @@ Shared secret 	9b9e5dab73d3317c88ad6dd49ca08f5b-->
     <div id="tracks"></div>
 
     <script>
-        const apiKey = '48023b8774595b0846917fad63fe2c9d';  // Replace with your Last.fm API key
-        const apiSecret = '9b9e5dab73d3317c88ad6dd49ca08f5b';  // Replace with your Last.fm API secret
+        const apiKey = '61eed0aed6dba19c4bbeb2222ed6fa3a';  // Replace with your Last.fm API key
+        const apiSecret = '07e2542cb2c5522881a7fa691af89ddc';  // Replace with your Last.fm API secret
 
         async function getToken() {
             const url = `https://ws.audioscrobbler.com/2.0/?method=auth.getToken&api_key=${apiKey}&format=json`;
@@ -28,9 +27,9 @@ Shared secret 	9b9e5dab73d3317c88ad6dd49ca08f5b-->
 
         function redirectToLastFmAuth(token) {
 
-            const callbackUrl = encodeURIComponent('https://derpac.com/tidbits/lastfm-tidbit/callback');
-        const authUrl = `http://www.last.fm/api/auth/?api_key=${apiKey}&token=${token}&cb=${callbackUrl}`;
-            window.open(authUrl, "_blank" );
+        const callbackUrl = encodeURIComponent('https://derpac.com/tidbits/lastfm-tidbit/callback');
+        const authUrl = `https://www.last.fm/api/auth/?api_key=${apiKey}&token=${token}&cb=${callbackUrl}`;
+        window.open(authUrl, "_blank" );
         }
 
         async function getSessionKey(token) {
