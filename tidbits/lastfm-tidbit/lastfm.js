@@ -1,4 +1,4 @@
-var apiKey = "2c5491d01f95d7366d37f03f6130de30";
+const apiKey = "2c5491d01f95d7366d37f03f6130de30";
 var apiSecret = "25a80c63a6eeeea44229dd7e5b7385da";
 
 const url = `https://ws.audioscrobbler.com/2.0/?method=auth.getToken&api_key=${apiKey}&format=json`;
