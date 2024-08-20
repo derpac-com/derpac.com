@@ -6,9 +6,28 @@
     <title>Document</title>
 </head>
 <body>
-    
+
+    <div id="tracks"></div>
 </body>
 <script>
+        async function getSessionKey(token) {
+            const signature = md5(`api_key${apiKey}methodauth.getSessiontoken${token}${apiSecret}`);
+            const url = `https://ws.audioscrobbler.com/2.0/?method=auth.getSession&api_key=${apiKey}&token=${token}&api_sig=${signature}&format=json`;
+            const response = await fetch(url);
+            const data = await response.json();
+            return data.session.key;
+        }
+
+        async function getUserRecentTracks(user, sessionKey) {
+            const method = 'user.getRecentTracks';
+            const apiSig = md5(`api_key${apiKey}method${method}sk${sessionKey}user${user}${apiSecret}`);
+            const url = `https://ws.audioscrobbler.com/2.0/?method=${method}&user=${user}&api_key=${apiKey}&sk=${sessionKey}&api_sig=${apiSig}&format=json`;
+            const response = await fetch(url);
+            const data = await response.json();
+            return data.recenttracks.track;
+        }
+
+        
      async function handlePostAuth() {
             const params = new URLSearchParams(window.location.search);
             if (params.has('token')) {
