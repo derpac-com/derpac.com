@@ -11,8 +11,8 @@ async function getToken() {
 }
 
 function redirectToLastFmAuth(token) {
-    const callbackUrl = encodeURIComponent('https://derpac.com/tidbits/lastfm-tidbit/authed/');
-    const authUrl = `https://www.last.fm/api/auth/?api_key=${apiKey}&token=${token}&cb=${callbackUrl}`;
+    // const callbackUrl = encodeURIComponent('https://derpac.com/tidbits/lastfm-tidbit/authed/');
+    const authUrl = `https://www.last.fm/api/auth/?api_key=${apiKey}&token=${token}`;
     window.open(authUrl, '_blank');
 }
 
