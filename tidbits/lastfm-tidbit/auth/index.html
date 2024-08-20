@@ -54,7 +54,7 @@ Shared secret 	07e2542cb2c5522881a7fa691af89ddc -->
         document.getElementById('authButton').addEventListener('click', async () => {
             const token = await getToken();
             redirectToLastFmAuth(token);
-            window.location.href = `https://derpac.com/tidbits/lastfm-tidbit/callback?${token}`
+            // window.location.href = `https://derpac.com/tidbits/lastfm-tidbit/callback?${token}`
         });
 
         // After the user is redirected back to your site after authorization
