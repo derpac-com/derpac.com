@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+     async function handlePostAuth() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.has('token')) {
+                const token = params.get('token');
+                const sessionKey = await getSessionKey(token);
+                const user = 'derpac';  // Replace with the Last.fm username
+                const tracks = await getUserRecentTracks(user, sessionKey);
+
+                // Display the tracks on the page
+                const tracksDiv = document.getElementById('tracks');
+                tracksDiv.innerHTML = tracks.map(track => `
+                    <p>${track.artist['#text']} - ${track.name}</p>
+                `).join('');
+            }
+        }
+
+        handlePostAuth();
+</script>
+</html>
