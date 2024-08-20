@@ -1,6 +1,5 @@
 var apiKey = "b87d33ceea7144e501cb8dab7b2e30ef";
-var sharedSecret = "b101531f79c82ceb222b00b07bdf1677";
-var token = "0HMFBbHuzD2un6m0dsA_SbHD57pWDZhZ";
+var apiSecret = "b101531f79c82ceb222b00b07bdf1677";
 
 const url = `https://ws.audioscrobbler.com/2.0/?method=auth.getToken&api_key=${apiKey}&format=json`;
 
@@ -12,7 +11,8 @@ async function getToken() {
 }
 
 function redirectToLastFmAuth(token) {
-    const authUrl = `http://www.last.fm/api/auth/?api_key=${apiKey}&token=${token}`;
+    const callbackUrl = encodeURIComponent('https://derpac.com/tidbits/lastfm-tidbit/');
+    const authUrl = `http://www.last.fm/api/auth/?api_key=${apiKey}&token=${token}&cb="${callbackUrl}`;
     window.location.href = authUrl;
 }
 
