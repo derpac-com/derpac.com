@@ -1,7 +1,7 @@
  	
 
-<!-- API key 	2c5491d01f95d7366d37f03f6130de30
-Shared secret 	25a80c63a6eeeea44229dd7e5b7385da-->
+<!-- API key 	48023b8774595b0846917fad63fe2c9d
+Shared secret 	9b9e5dab73d3317c88ad6dd49ca08f5b-->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -16,8 +16,8 @@ Shared secret 	25a80c63a6eeeea44229dd7e5b7385da-->
     <div id="tracks"></div>
 
     <script>
-        const apiKey = '2c5491d01f95d7366d37f03f6130de30';  // Replace with your Last.fm API key
-        const apiSecret = '25a80c63a6eeeea44229dd7e5b7385da';  // Replace with your Last.fm API secret
+        const apiKey = '48023b8774595b0846917fad63fe2c9d';  // Replace with your Last.fm API key
+        const apiSecret = '9b9e5dab73d3317c88ad6dd49ca08f5b';  // Replace with your Last.fm API secret
 
         async function getToken() {
             const url = `https://ws.audioscrobbler.com/2.0/?method=auth.getToken&api_key=${apiKey}&format=json`;
@@ -56,23 +56,23 @@ Shared secret 	25a80c63a6eeeea44229dd7e5b7385da-->
         });
 
         // After the user is redirected back to your site after authorization
-        async function handlePostAuth() {
-            const params = new URLSearchParams(window.location.search);
-            if (params.has('token')) {
-                const token = params.get('token');
-                const sessionKey = await getSessionKey(token);
-                const user = 'derpac';  // Replace with the Last.fm username
-                const tracks = await getUserRecentTracks(user, sessionKey);
+        // async function handlePostAuth() {
+        //     const params = new URLSearchParams(window.location.search);
+        //     if (params.has('token')) {
+        //         const token = params.get('token');
+        //         const sessionKey = await getSessionKey(token);
+        //         const user = 'derpac';  // Replace with the Last.fm username
+        //         const tracks = await getUserRecentTracks(user, sessionKey);
 
-                // Display the tracks on the page
-                const tracksDiv = document.getElementById('tracks');
-                tracksDiv.innerHTML = tracks.map(track => `
-                    <p>${track.artist['#text']} - ${track.name}</p>
-                `).join('');
-            }
-        }
+        //         // Display the tracks on the page
+        //         const tracksDiv = document.getElementById('tracks');
+        //         tracksDiv.innerHTML = tracks.map(track => `
+        //             <p>${track.artist['#text']} - ${track.name}</p>
+        //         `).join('');
+        //     }
+        // }
 
-        handlePostAuth();
+        // handlePostAuth();
     </script>
 
     <!-- Include the MD5 library -->
