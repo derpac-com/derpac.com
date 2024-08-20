@@ -74,7 +74,8 @@ Shared secret 	07e2542cb2c5522881a7fa691af89ddc -->
         // }
 
         // handlePostAuth();
-        function callback(){
+        async function callback(){
+            const token = await getToken();
             window.location.href = `https://derpac.com/tidbits/lastfm-tidbit/callback?${token}`
         }
     </script>
