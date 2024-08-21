@@ -125,3 +125,6 @@ function addResult(string, time) {
 
     results.appendChild(newRow);
 }
+
+
+//wanna add checkpoints/loading bar that fills when you type
