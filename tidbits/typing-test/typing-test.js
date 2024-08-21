@@ -6,6 +6,7 @@ const timer = document.getElementById("timer");
 let startTime;
 let timerInterval;
 let timerStarted = false;
+let currentIndex = 0;
 // listen for input in target. Set target value to target text. put the target text into an array
 
 //listen for input in typing. Start the timer... have call a function everytime that checks the value entered is correct
@@ -48,11 +49,29 @@ typing.addEventListener("input", function(event){
         const timeTaken = (Date.now() - startTime) / 1000;
         addResult(typingVal, timeTaken);
         typing.value = "";
+        setTimeout(() => {
+            currentIndex = 0;
+            document.getElementById('progress-bar').style.width = '0%';
+          }, "200");
     }
 });
 
 
+//checkpoint / progress system:
+function updateCheckpoints() {
+    const progressBar = document.getElementById('progress-bar');
+    const percentage = (currentIndex / aim.length) * 100;
+    progressBar.style.width = `${percentage}%`;
 
+};
+
+document.querySelector('#typing').addEventListener('keydown', function(event) {
+   
+    if (event.key === aim[currentIndex]) {
+        currentIndex++; 
+        updateCheckpoints(); 
+    }
+});
 
 
 function arrayFromString(string){
@@ -68,6 +87,7 @@ function checkPoints(typingVal){
             incorrect();
             return false;
         }
+        
     }
     checkpoints++;
     console.log(checkpoints);
