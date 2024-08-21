@@ -11,6 +11,11 @@ let timerStarted = false;
 //listen for input in typing. Start the timer... have call a function everytime that checks the value entered is correct
 // when all correct call a function to clear the typing area and add the result to the results table
 
+window.onload = function(){
+    typing.value = "";
+    target.value = "";
+};
+
 target.addEventListener("input", function(){
     let targetText = target.value;
     aim = arrayFromString(targetText);
