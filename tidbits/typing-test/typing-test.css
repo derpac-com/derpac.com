@@ -3,7 +3,7 @@ body {
     color: #454545;
     font-size: 24px;
     margin: 2em auto;
-    max-width: 800px;
+    max-width: 420px;
     padding: 1em;
     line-height: 1.4;
     text-align: justify;
@@ -11,6 +11,9 @@ body {
     justify-items: center;
     }
 
+h1{
+    text-decoration: 5px underline;
+}
 
 
 input[type=text]{
@@ -43,7 +46,25 @@ input[type=text]{
     height: 32px;
     border: 2px solid #282828;
     border-radius: 5px;
-
+    text-align: center;
+    align-content: center;
     font-weight: 700;
     font-size: 16px;
+}
+
+table {
+    width: 416px;
+    margin-top: 20px;
+    border-collapse: collapse;
+ 
+}
+
+table, th, td {
+    border-top: 1px solid #ccc;
+    font-size: 15px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
 }
