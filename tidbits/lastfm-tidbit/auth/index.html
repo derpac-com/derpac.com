@@ -20,7 +20,7 @@ Shared secret 	07e2542cb2c5522881a7fa691af89ddc -->
         const apiSecret = '07e2542cb2c5522881a7fa691af89ddc';  // Replace with your Last.fm API secret
 
         async function getToken() {
-            const url = `http://ws.audioscrobbler.com/2.0/?method=auth.getToken&api_key=${apiKey}&format=json`;
+            const url = `https://ws.audioscrobbler.com/2.0/?method=auth.getToken&api_key=${apiKey}&format=json`;
             const response = await fetch(url);
             const data = await response.json();
             return data.token;
