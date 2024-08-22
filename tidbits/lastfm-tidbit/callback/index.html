@@ -26,31 +26,52 @@ Shared secret 	07e2542cb2c5522881a7fa691af89ddc -->
         return data.session.key;
     }
 
-    async function getUserRecentTracks(user, sessionKey) {
-        const method = 'user.getRecentTracks';
-        const apiSig = md5(`api_key${apiKey}method${method}sk${sessionKey}user${user}${apiSecret}`);
-        const url = `https://ws.audioscrobbler.com/2.0/?method=${method}&user=${user}&api_key=${apiKey}&sk=${sessionKey}&api_sig=${apiSig}&format=json`;
-        const response = await fetch(url);
-        const data = await response.json();
-        return data.recenttracks.track;
+
+async function getTrackInfo(artist, trackName, apiKey) {
+    const method = 'track.getInfo';
+    const url = `https://ws.audioscrobbler.com/2.0/?method=${method}&artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(trackName)}&api_key=${apiKey}&format=json`;
+    const response = await fetch(url);
+    const data = await response.json();
+    return data.track ? data.track.duration : null;  // duration is in milliseconds
+}
+
+async function getUserRecentTracks(user, sessionKey, apiKey) {
+    const method = 'user.getRecentTracks';
+    const apiSig = md5(`api_key${apiKey}method${method}sk${sessionKey}user${user}${apiSecret}`);
+    const url = `https://ws.audioscrobbler.com/2.0/?method=${method}&user=${user}&api_key=${apiKey}&sk=${sessionKey}&api_sig=${apiSig}&format=json`;
+    const response = await fetch(url);
+    const data = await response.json();
+    const tracks = data.recenttracks.track;
+
+    // Fetch duration for each track
+    for (const track of tracks) {
+        const duration = await getTrackInfo(track.artist['#text'], track.name, apiKey);
+        track.duration = duration;  // Add duration to the track object
     }
+
+    return tracks;
+}
 
 
 async function handlePostAuth() {
-        const params = new URLSearchParams(window.location.search);
-        if (params.has('token')) {
-            const token = params.get('token');
-            const sessionKey = await getSessionKey(token);
-            const user = 'derpac';  // Replace with the Last.fm username
-            const tracks = await getUserRecentTracks(user, sessionKey);
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('token')) {
+        const token = params.get('token');
+        const sessionKey = await getSessionKey(token);
+        const user = 'derpac';  
 
-            // Display the tracks on the page
-            const tracksDiv = document.getElementById('tracks');
-            tracksDiv.innerHTML = tracks.map(track => `
-                <p>${track.artist['#text']} - ${track.name}</p>
-            `).join('');
-        }
+        const currentTime = Math.floor(Date.now() / 1000);
+        const startOfYear = new Date(new Date().getFullYear(), 0, 1).getTime() / 1000;
+
+        const tracks = await getUserRecentTracks(user, sessionKey, apiKey, 200, startOfYear);
+
+    
+        const tracksDiv = document.getElementById('tracks');
+        tracksDiv.innerHTML = tracks.map(track => `
+            <p>${track.artist['#text']} - ${track.name} (${track.duration ? `${Math.round(track.duration / 1000)} seconds` : 'Unknown length'})</p>
+        `).join('');
     }
+}
 
     handlePostAuth();
 </script>
