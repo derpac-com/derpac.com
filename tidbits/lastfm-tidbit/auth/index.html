@@ -11,8 +11,9 @@ Shared secret 	07e2542cb2c5522881a7fa691af89ddc -->
 </head>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.18.0/js/md5.min.js"></script>
 <body>
-    <h1>Last.fm Authentication Example</h1>
-    <button id="authButton">Authenticate with Last.fm</button>
+    <h1>last fm tibbits.</h1>
+    <p>this is a work in progress currently you can enter your username and get recent tracks <br> don't click the Authenticate button yet!</p>
+    <button id="authButton" disabled>Authenticate with Last.fm</button>
     <button id="generate" onclick="handlePostAuth()">Generate tracks</button>
     <div id="tracks"></div>
 
@@ -26,7 +27,7 @@ Shared secret 	07e2542cb2c5522881a7fa691af89ddc -->
         const apiKey = '61eed0aed6dba19c4bbeb2222ed6fa3a';  // Replace with your Last.fm API key
         const apiSecret = '07e2542cb2c5522881a7fa691af89ddc';  // Replace with your Last.fm API secret
 
-// -----------------------
+// -----------------------        public api request
 
 document.getElementById('userForm').addEventListener('submit', function(event) {
             event.preventDefault();
@@ -37,7 +38,7 @@ document.getElementById('userForm').addEventListener('submit', function(event) {
                 .then(response => response.json())
                 .then(data => {
                     const trackList = document.getElementById('trackList');
-                    trackList.innerHTML = ''; // Clear previous results
+                    trackList.innerHTML = ''; 
                     data.recenttracks.track.forEach(track => {
                         const listItem = document.createElement('li');
                         listItem.textContent = `${track.artist['#text']} - ${track.name}`;
@@ -110,8 +111,6 @@ document.getElementById('userForm').addEventListener('submit', function(event) {
         handlePostAuth();
     
     </script>
-
-    <!-- Include the MD5 library -->
     
 </body>
 </html>
