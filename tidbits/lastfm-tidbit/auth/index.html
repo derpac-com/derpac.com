@@ -16,9 +16,41 @@ Shared secret 	07e2542cb2c5522881a7fa691af89ddc -->
     <button id="generate" onclick="handlePostAuth()">Generate tracks</button>
     <div id="tracks"></div>
 
+    <form id="userForm">
+        <input type="text" id="username" placeholder="Enter Last.fm username">
+        <button type="submit">Get Recent Tracks</button>
+    </form>
+    <ul id="trackList"></ul>
+
     <script>
         const apiKey = '61eed0aed6dba19c4bbeb2222ed6fa3a';  // Replace with your Last.fm API key
         const apiSecret = '07e2542cb2c5522881a7fa691af89ddc';  // Replace with your Last.fm API secret
+
+// -----------------------
+
+document.getElementById('userForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${username}&api_key=${apiKey}&format=json`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const trackList = document.getElementById('trackList');
+                    trackList.innerHTML = ''; // Clear previous results
+                    data.recenttracks.track.forEach(track => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = `${track.artist['#text']} - ${track.name}`;
+                        trackList.appendChild(listItem);
+                    });
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        });
+
+
+
+// -------------------
+
 
         async function getToken() {
             const url = `https://ws.audioscrobbler.com/2.0/?method=auth.getToken&api_key=${apiKey}&format=json`;
