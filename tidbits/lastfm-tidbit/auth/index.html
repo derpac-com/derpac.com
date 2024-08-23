@@ -58,27 +58,27 @@ Shared secret 	07e2542cb2c5522881a7fa691af89ddc -->
         });
 
         // After the user is redirected back to your site after authorization
-        // async function handlePostAuth() {
-        //     const params = new URLSearchParams(window.location.search);
-        //     if (params.has('token')) {
-        //         const token = params.get('token');
-        //         const sessionKey = await getSessionKey(token);
-        //         const user = 'derpac';  // Replace with the Last.fm username
-        //         const tracks = await getUserRecentTracks(user, sessionKey);
+        async function handlePostAuth() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.has('token')) {
+                const token = params.get('token');
+                const sessionKey = await getSessionKey(token);
+                const user = 'derpac';  // Replace with the Last.fm username
+                const tracks = await getUserRecentTracks(user, sessionKey);
 
-        //         // Display the tracks on the page
-        //         const tracksDiv = document.getElementById('tracks');
-        //         tracksDiv.innerHTML = tracks.map(track => `
-        //             <p>${track.artist['#text']} - ${track.name}</p>
-        //         `).join('');
-        //     }
-        // }
+                // Display the tracks on the page
+                const tracksDiv = document.getElementById('tracks');
+                tracksDiv.innerHTML = tracks.map(track => `
+                    <p>${track.artist['#text']} - ${track.name}</p>
+                `).join('');
+            }
+        }
 
-        // handlePostAuth();
-        // async function callback(){
-        //     const token = await getToken();
-        //     window.location.href = `https://derpac.com/tidbits/lastfm-tidbit/callback?${token}`
-        // }
+        handlePostAuth();
+        async function callback(){
+            const token = await getToken();
+            window.location.href = `https://derpac.com/tidbits/lastfm-tidbit/callback?${token}`
+        }
     </script>
 
     <!-- Include the MD5 library -->
