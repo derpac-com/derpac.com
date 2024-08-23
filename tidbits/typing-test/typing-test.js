@@ -52,7 +52,7 @@ typing.addEventListener("input", function(event){
         setTimeout(() => {
             currentIndex = 0;
             document.getElementById('progress-bar').style.width = '0%';
-          }, "200");
+          }, "150");
     }
 });
 
@@ -66,16 +66,23 @@ function updateCheckpoints() {
 };
 
 document.querySelector('#typing').addEventListener('keydown', function(event) {
-   
-    if (event.key === aim[currentIndex]) {
-        currentIndex++; 
-        updateCheckpoints(); 
+    const userInput = event.target.value;
+    const currentTarget = aim[currentIndex];
+    if (userInput[currentIndex] === currentTarget) {
+        currentIndex++;
+        updateCheckpoints();
+        console.log("Correct input:", currentTarget);
+        if (currentIndex === aim.length) {
+            console.log("Typing complete!");
+        }
+    } else if (!currentTarget.startsWith(userInput[currentIndex])) {
+        console.log("Mistake detected");
     }
 });
 
 
 function arrayFromString(string){
-    let targetArr = [...string];
+    let targetArr = string.split("")
     return targetArr
 }
 
