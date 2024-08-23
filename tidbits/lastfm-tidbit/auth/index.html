@@ -30,7 +30,7 @@ Shared secret 	07e2542cb2c5522881a7fa691af89ddc -->
 
         // const callbackUrl = encodeURIComponent('https://derpac.com/tidbits/lastfm-tidbit/callback');
         // &cb=${callbackUrl}
-        const authUrl = `https://www.last.fm/api/auth/?api_key=${apiKey}`;
+        const authUrl = `https://www.last.fm/api/auth/?api_key=${apiKey}&cb=https://derpac.com/tidbits/lastfm-tidbit/auth/`;
         window.open(authUrl, "_blank" );
         }
 
