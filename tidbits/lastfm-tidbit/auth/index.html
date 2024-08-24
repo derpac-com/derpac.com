@@ -33,6 +33,7 @@ Shared secret 	07e2542cb2c5522881a7fa691af89ddc -->
 let dataArr = [];
 document.getElementById('userForm').addEventListener('submit', function(event) {
     event.preventDefault();
+    dataArr = [];
     const username = document.getElementById('username').value;
     const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${username}&api_key=${apiKey}&format=json`;
 
