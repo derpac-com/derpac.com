@@ -30,26 +30,84 @@ Shared secret 	07e2542cb2c5522881a7fa691af89ddc -->
 
 // -----------------------        public api request
 
+let dataArr = [];
 document.getElementById('userForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const username = document.getElementById('username').value;
-            const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${username}&api_key=${apiKey}&format=json`;
+    event.preventDefault();
+    const username = document.getElementById('username').value;
+    const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${username}&api_key=${apiKey}&format=json`;
 
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    const trackList = document.getElementById('trackList');
-                    trackList.innerHTML = ''; 
-                    data.recenttracks.track.forEach(track => {
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const trackList = document.getElementById('trackList');
+            trackList.innerHTML = ''; 
+            const tracks = data.recenttracks.track.map(track => ({
+                artist: track.artist['#text'],
+                name: track.name,
+                duration: null 
+            }));
+
+            const fetchTrackInfoPromises = tracks.map(track =>
+                getTrackInfo(track.artist, track.name, apiKey)
+                    .then(time => {
+                        track.duration = time;
+                        return track;
+                    })
+            );
+
+            Promise.all(fetchTrackInfoPromises)
+                .then(updatedTracks => {
+                    updatedTracks.forEach(track => {
+                        dataArr.push(track);
                         const listItem = document.createElement('li');
-                        listItem.textContent = `${track.artist['#text']} - ${track.name}`;
+                        listItem.textContent = `${track.artist} - ${track.name} (${track.duration ? `${Math.round(track.duration / 1000)} seconds` : 'Unknown length'})`;
                         trackList.appendChild(listItem);
                     });
-                })
-                .catch(error => console.error('Error fetching data:', error));
-        });
+                    calculateArtistDurations(dataArr);
+                });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+});
 
 
+// need to go through and check time per artist!
+
+// const duration = await getTrackInfo(track.artist['#text'], track.name, apiKey);
+// track.duration = duration;
+// for(let i; i<artists.length; i++){
+//     let time = getTrackInfo(artists[i], tracks[i], apiKey);
+//     console.log(time);
+// }
+
+
+async function getTrackInfo(artist, trackName, apiKey) {
+    const method = 'track.getInfo';
+    const url = `https://ws.audioscrobbler.com/2.0/?method=${method}&artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(trackName)}&api_key=${apiKey}&format=json`;
+    const response = await fetch(url);
+    const data = await response.json();
+    dataArr.push(data);
+    // console.log(dataArr);
+    return data.track ? parseInt(data.track.duration, 10) : null;  // duration is in milliseconds
+}
+
+function calculateArtistDurations(dataArr) {
+    const artistDurations = {};
+
+    dataArr.forEach(track => {
+        if (track.duration !== null) {
+            const duration = parseInt(track.duration, 10);  // Ensure duration is an integer
+
+            if (artistDurations[track.artist]) {
+                artistDurations[track.artist] += duration;
+            } else {
+                artistDurations[track.artist] = duration;
+            }
+        }
+    });
+
+    console.log('Total duration per artist:', artistDurations);
+    // You can now use artistDurations for further processing or display
+}
 
 // -------------------
 
