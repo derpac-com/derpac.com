@@ -13,7 +13,7 @@ Shared secret 	07e2542cb2c5522881a7fa691af89ddc -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.18.0/js/md5.min.js"></script>
 <body>
     <h1>last-fm.tidbit</h1>
-    <p>this is a work in progress and prone to breaks!<br> don't click the Authenticate button yet!</p>
+    <p>this is a work in progress and prone to breaks!<br> it currently ranks by plays not time, however it does show time listened <br>don't click the Authenticate button yet!</p>
     <button id="authButton" disabled>Authenticate with Last.fm</button>
     <!-- <button id="generate" onclick="handlePostAuth()">Generate tracks</button> -->
     <div id="tracks"></div>
@@ -49,6 +49,7 @@ Shared secret 	07e2542cb2c5522881a7fa691af89ddc -->
         <input type="text" id="username" placeholder="Enter Last.fm username">
         <button type="submit">generate charts</button>
     </form>
+    <p style="font-size:12px">time listened for album and artist will break or hugely underestimate due to limitations with the API and perhpas my coding skills >:P</p>
     <div id="resultTable"></div>
 
     <script>
@@ -77,21 +78,21 @@ document.getElementById("userForm").addEventListener("submit", function(event) {
     let headers, keys, title;
 
     
-    if (dataType === "artists") {
+    if (dataType === 'artists') {
         fetchFunction = fetchTopArtists;
-        headers = ["Artist", "Playcount"];
-        keys = ["name", "playcount"];
-        title = "Top Artists";
-    } else if (dataType === "tracks") {
+        headers = ['artist', 'plays', 'time (mins)'];
+        keys = ['name', 'playcount', 'minutesListened'];
+        title = 'Top Artists';
+    } else if (dataType === 'tracks') {
         fetchFunction = fetchTopTracks;
-        headers = ["Track", "Artist", "Playcount"];
-        keys = ["name", "artist.name", "playcount"];
-        title = "Top Tracks";
-    } else if (dataType === "albums") {
+        headers = ['track', 'artist', 'plays', 'time (mins)'];
+        keys = ['name', 'artist.name', 'playcount', 'minutesListened'];
+        title = 'Top Tracks';
+    } else if (dataType === 'albums') {
         fetchFunction = fetchTopAlbums;
-        headers = ["Album", "Artist", "Playcount"];
-        keys = ["name", "artist.name", "playcount"];
-        title = "Top Albums";
+        headers = ['album', 'artist', 'plays', 'time (mins)'];
+        keys = ['name', 'artist.name', 'playcount', 'minutesListened'];
+        title = 'Top Albums';
     } else {
         console.error("select a valid type");
         return; 
@@ -107,24 +108,40 @@ document.getElementById("userForm").addEventListener("submit", function(event) {
 
     // fetch top artists
     function fetchTopArtists(username, period, apiKey, limit) {
-    const url = `https://ws.audioscrobbler.com/2.0/?method=user.gettopartists&user=${username}&api_key=${apiKey}&format=json&period=${period}&limit=${limit}`;
+        const url = `https://ws.audioscrobbler.com/2.0/?method=user.gettopartists&user=${username}&api_key=${apiKey}&format=json&period=${period}&limit=${limit}`;
     return fetch(url)
         .then(response => response.json())
-        .then(data => data.topartists.artist)
+        .then(data => {
+            const artists = data.topartists.artist;
+            return Promise.all(artists.map(artist => {
+                return TotalMinsArtist(username, artist.name, apiKey, period)
+                    .then(minutes => {
+                        artist.minutesListened = minutes;
+                        return artist;
+                    });
+            }));
+        })
         .catch(error => {
-            console.error("Error fetching top artists:", error);
+            console.error('Error fetching top artists:', error);
             return [];
         });
-}
+    }
 
 // fetch top tracks
 function fetchTopTracks(username, period, apiKey, limit) {
     const url = `https://ws.audioscrobbler.com/2.0/?method=user.gettoptracks&user=${username}&api_key=${apiKey}&format=json&period=${period}&limit=${limit}`;
     return fetch(url)
         .then(response => response.json())
-        .then(data => data.toptracks.track)
+        .then(data => {
+            const tracks = data.toptracks.track;
+            tracks.forEach(track => {
+                const durationSeconds = parseInt(track.duration, 10);
+                track.minutesListened = durationSeconds ? Math.round(durationSeconds / 60) * track.playcount : 0;
+            });
+            return tracks;
+        })
         .catch(error => {
-            console.error("Error fetching top tracks:", error);
+            console.error('Error fetching top tracks:', error);
             return [];
         });
 }
@@ -134,45 +151,86 @@ function fetchTopAlbums(username, period, apiKey, limit) {
     const url = `https://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user=${username}&api_key=${apiKey}&format=json&period=${period}&limit=${limit}`;
     return fetch(url)
         .then(response => response.json())
-        .then(data => data.topalbums.album)
+        .then(data => {
+            const albums = data.topalbums.album;
+            return Promise.all(albums.map(album => {
+                return TotalMinsAlbum(username, album.artist.name, album.name, apiKey, period)
+                    .then(minutes => {
+                        album.minutesListened = minutes;
+                        return album;
+                    });
+            }));
+        })
         .catch(error => {
-            console.error("Error fetching top albums:", error);
+            console.error('Error fetching top albums:', error);
             return [];
         });
 }
+//calculate mins listened
 
+function TotalMinsArtist(username, artistName, apiKey, period){
+    const url = `https://ws.audioscrobbler.com/2.0/?method=user.getartisttracks&user=${username}&artist=${artistName}&api_key=${apiKey}&format=json&period=${period}`;
+    return fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const tracks = data.artisttracks.track || [];
+            const totalDuration = tracks.reduce((acc, track) => acc + parseInt(track.duration, 10) * track.playcount, 0);        // no idea what this is but shout out google
+            return Math.round(totalDuration / 60); 
+        })
+        .catch(error => {
+            console.error('Error fetching artist tracks:', error);
+            return 0;
+        });
+}
+
+function TotalMinsAlbum(username, artistName, albumName, apiKey, period){
+    const url = `https://ws.audioscrobbler.com/2.0/?method=album.getinfo&user=${username}&artist=${artistName}&album=${albumName}&api_key=${apiKey}&format=json`;
+    return fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const tracks = data.album.tracks.track || [];
+            const totalDuration = tracks.reduce((acc, track) => acc + (parseInt(track.duration, 10) || 0), 0);
+            return Math.round(totalDuration / 60); // Convert to minutes
+        })
+        .catch(error => {
+            console.error('Error fetching album tracks:', error);
+            return 0;
+        });
+}
 
 
 function generateTable(title, items, headers, keys, tableId) {
     const tableContainer = document.getElementById(tableId);
     tableContainer.innerHTML = `<h3>${title}</h3>`;
-    const table = document.createElement("table");
-    table.className = "table";
+    const table = document.createElement('table');
+    table.className = 'table';
 
-   
-    const thead = document.createElement("thead");
-    const headerRow = document.createElement("tr");
-    headers.forEach(header => {  // genius method should use on derpic. shout out to stackoverflow 
-        const th = document.createElement("th");
+ 
+    const thead = document.createElement('thead');
+    const headerRow = document.createElement('tr');
+    headers.forEach(header => {
+        const th = document.createElement('th');
         th.textContent = header;
         headerRow.appendChild(th);
     });
     thead.appendChild(headerRow);
     table.appendChild(thead);
 
-    
-    const tbody = document.createElement("tbody");
+ 
+    const tbody = document.createElement('tbody');
     items.forEach(item => {
-        const row = document.createElement("tr");
+        const row = document.createElement('tr');
         keys.forEach(key => {
-            const td = document.createElement("td");
-            const value = key.split(".").reduce((acc, k) => acc[k], item);
+            const td = document.createElement('td');
+            const value = key.split('.').reduce((acc, k) => acc[k], item);
             td.textContent = value;
             row.appendChild(td);
         });
         tbody.appendChild(row);
     });
     table.appendChild(tbody);
+
+  
     tableContainer.appendChild(table);
 }
 
