@@ -13,67 +13,172 @@ Shared secret 	07e2542cb2c5522881a7fa691af89ddc -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.18.0/js/md5.min.js"></script>
 <body>
     <h1>last-fm.tidbit</h1>
-    <p>this is a work in progress currently you can enter your username and get recent tracks <br> don't click the Authenticate button yet!</p>
+    <p>this is a work in progress and prone to breaks!<br> don't click the Authenticate button yet!</p>
     <button id="authButton" disabled>Authenticate with Last.fm</button>
     <!-- <button id="generate" onclick="handlePostAuth()">Generate tracks</button> -->
     <div id="tracks"></div>
 
+    <button class="dropbtn">type
+    <select name="type" id="type">
+        <option value="artists">artist</option>
+        <option value="tracks">track</option>
+        <option value="albums">album</option>
+      </select>
+    </button>
+
+    <button class="dropbtn">time
+        <select name="time" id="time">
+            <option value="7day">7 days</option>
+            <option value="1month ">30 days</option>
+            <option value="6month ">180 days </option>
+            <option value="12month">365 days</option>
+            <option value="overall">overall</option>
+          </select>
+        </button>
+
+    <button class="dropbtn">amount
+        <select name="amount" id="amount">
+            <option value="10">10</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+            <option value="500">500</option>
+            </select>
+        </button>
+
     <form id="userForm">
         <input type="text" id="username" placeholder="Enter Last.fm username">
-        <button type="submit">Get Recent Tracks</button>
+        <button type="submit">generate charts</button>
     </form>
-    <ul id="trackList"></ul>
+    <div id="resultTable"></div>
 
     <script>
-        const apiKey = '61eed0aed6dba19c4bbeb2222ed6fa3a';  // Replace with your Last.fm API key
-        const apiSecret = '07e2542cb2c5522881a7fa691af89ddc';  // Replace with your Last.fm API secret
+        const apiKey = "61eed0aed6dba19c4bbeb2222ed6fa3a";  // Replace with your Last.fm API key
+        const apiSecret = "07e2542cb2c5522881a7fa691af89ddc";  // Replace with your Last.fm API secret
+
+        
+    
+
 
 // -----------------------        public api request
 
 let dataArr = [];
-document.getElementById('userForm').addEventListener('submit', function(event) {
+document.getElementById("userForm").addEventListener("submit", function(event) {
     event.preventDefault();
-    dataArr = [];
-    const username = document.getElementById('username').value;
-    const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${username}&api_key=${apiKey}&format=json`;
+    
+    const username = document.getElementById("username").value;
+    const period = document.getElementById("time").value;
+    const dataType = document.getElementById("type").value;
+    const limit = document.getElementById("amount").value;
+    const apiKey = "61eed0aed6dba19c4bbeb2222ed6fa3a"; 
+    
 
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            const trackList = document.getElementById('trackList');
-            trackList.innerHTML = ''; 
-            const tracks = data.recenttracks.track.map(track => ({
-                artist: track.artist['#text'],
-                name: track.name,
-                duration: null 
-            }));
+    
+    let fetchFunction;
+    let headers, keys, title;
 
-            const fetchTrackInfoPromises = tracks.map(track =>
-                getTrackInfo(track.artist, track.name, apiKey)
-                    .then(time => {
-                        track.duration = time;
-                        return track;
-                    })
-            );
+    
+    if (dataType === "artists") {
+        fetchFunction = fetchTopArtists;
+        headers = ["Artist", "Playcount"];
+        keys = ["name", "playcount"];
+        title = "Top Artists";
+    } else if (dataType === "tracks") {
+        fetchFunction = fetchTopTracks;
+        headers = ["Track", "Artist", "Playcount"];
+        keys = ["name", "artist.name", "playcount"];
+        title = "Top Tracks";
+    } else if (dataType === "albums") {
+        fetchFunction = fetchTopAlbums;
+        headers = ["Album", "Artist", "Playcount"];
+        keys = ["name", "artist.name", "playcount"];
+        title = "Top Albums";
+    } else {
+        console.error("select a valid type");
+        return; 
+    }
 
-            Promise.all(fetchTrackInfoPromises)
-                .then(updatedTracks => {
-                    updatedTracks.forEach(track => {
-                        dataArr.push(track);
-                        const listItem = document.createElement('li');
-                        listItem.textContent = `${track.artist} - ${track.name} (${track.duration ? `${Math.round(track.duration / 1000)} seconds` : 'Unknown length'})`;
-                        trackList.appendChild(listItem);
-                    });
-                    calculateArtistDurations(dataArr);
-                });
+    // fetch all the data and generate table accourdingly
+    fetchFunction(username, period, apiKey, limit)
+        .then(items => {
+            generateTable(title, items, headers, keys, "resultTable");
         })
-        .catch(error => console.error('Error fetching data:', error));
+        .catch(error => console.error("Error fetching data:", error));
 });
 
+    // fetch top artists
+    function fetchTopArtists(username, period, apiKey, limit) {
+    const url = `https://ws.audioscrobbler.com/2.0/?method=user.gettopartists&user=${username}&api_key=${apiKey}&format=json&period=${period}&limit=${limit}`;
+    return fetch(url)
+        .then(response => response.json())
+        .then(data => data.topartists.artist)
+        .catch(error => {
+            console.error("Error fetching top artists:", error);
+            return [];
+        });
+}
+
+// fetch top tracks
+function fetchTopTracks(username, period, apiKey, limit) {
+    const url = `https://ws.audioscrobbler.com/2.0/?method=user.gettoptracks&user=${username}&api_key=${apiKey}&format=json&period=${period}&limit=${limit}`;
+    return fetch(url)
+        .then(response => response.json())
+        .then(data => data.toptracks.track)
+        .catch(error => {
+            console.error("Error fetching top tracks:", error);
+            return [];
+        });
+}
+
+// fetch top albums
+function fetchTopAlbums(username, period, apiKey, limit) {
+    const url = `https://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user=${username}&api_key=${apiKey}&format=json&period=${period}&limit=${limit}`;
+    return fetch(url)
+        .then(response => response.json())
+        .then(data => data.topalbums.album)
+        .catch(error => {
+            console.error("Error fetching top albums:", error);
+            return [];
+        });
+}
+
+
+
+function generateTable(title, items, headers, keys, tableId) {
+    const tableContainer = document.getElementById(tableId);
+    tableContainer.innerHTML = `<h3>${title}</h3>`;
+    const table = document.createElement("table");
+    table.className = "table";
+
+   
+    const thead = document.createElement("thead");
+    const headerRow = document.createElement("tr");
+    headers.forEach(header => {  // genius method should use on derpic. shout out to stackoverflow 
+        const th = document.createElement("th");
+        th.textContent = header;
+        headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    
+    const tbody = document.createElement("tbody");
+    items.forEach(item => {
+        const row = document.createElement("tr");
+        keys.forEach(key => {
+            const td = document.createElement("td");
+            const value = key.split(".").reduce((acc, k) => acc[k], item);
+            td.textContent = value;
+            row.appendChild(td);
+        });
+        tbody.appendChild(row);
+    });
+    table.appendChild(tbody);
+    tableContainer.appendChild(table);
+}
 
 // need to go through and check time per artist!
 
-// const duration = await getTrackInfo(track.artist['#text'], track.name, apiKey);
+// const duration = await getTrackInfo(track.artist["#text"], track.name, apiKey);
 // track.duration = duration;
 // for(let i; i<artists.length; i++){
 //     let time = getTrackInfo(artists[i], tracks[i], apiKey);
@@ -82,7 +187,7 @@ document.getElementById('userForm').addEventListener('submit', function(event) {
 
 
 async function getTrackInfo(artist, trackName, apiKey) {
-    const method = 'track.getInfo';
+    const method = "track.getInfo";
     const url = `https://ws.audioscrobbler.com/2.0/?method=${method}&artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(trackName)}&api_key=${apiKey}&format=json`;
     const response = await fetch(url);
     const data = await response.json();
@@ -91,24 +196,24 @@ async function getTrackInfo(artist, trackName, apiKey) {
     return data.track ? parseInt(data.track.duration, 10) : null;  // duration is in milliseconds
 }
 
-function calculateArtistDurations(dataArr) {
-    const artistDurations = {};
+// function calculateArtistDurations(dataArr) {
+//     const artistDurations = {};
 
-    dataArr.forEach(track => {
-        if (track.duration !== null) {
-            const duration = parseInt(track.duration, 10);  // Ensure duration is an integer
+//     dataArr.forEach(track => {
+//         if (track.duration !== null) {
+//             const duration = parseInt(track.duration, 10);  // Ensure duration is an integer
 
-            if (artistDurations[track.artist]) {
-                artistDurations[track.artist] += duration;
-            } else {
-                artistDurations[track.artist] = duration;
-            }
-        }
-    });
+//             if (artistDurations[track.artist]) {
+//                 artistDurations[track.artist] += duration;
+//             } else {
+//                 artistDurations[track.artist] = duration;
+//             }
+//         }
+//     });
 
-    console.log('Total duration per artist:', artistDurations);
-    // You can now use artistDurations for further processing or display
-}
+//     console.log("Total duration per artist:", artistDurations);
+//     // You can now use artistDurations for further processing or display
+// }
 
 // -------------------
 
@@ -122,7 +227,7 @@ function calculateArtistDurations(dataArr) {
 
         function redirectToLastFmAuth(token) {
 
-        // const callbackUrl = encodeURIComponent('https://derpac.com/tidbits/lastfm-tidbit/callback');
+        // const callbackUrl = encodeURIComponent("https://derpac.com/tidbits/lastfm-tidbit/callback");
         // &cb=${callbackUrl}
         const authUrl = `https://www.last.fm/api/auth/?api_key=${apiKey}&cb=https://derpac.com/tidbits/lastfm-tidbit/auth/`;
         window.open(authUrl, "_blank" );
@@ -137,7 +242,7 @@ function calculateArtistDurations(dataArr) {
         }
 
         async function getUserRecentTracks(user, sessionKey) {
-            const method = 'user.getRecentTracks';
+            const method = "user.getRecentTracks";
             const apiSig = md5(`api_key${apiKey}method${method}sk${sessionKey}user${user}${apiSecret}`);
             const url = `https://ws.audioscrobbler.com/2.0/?method=${method}&user=${user}&api_key=${apiKey}&sk=${sessionKey}&api_sig=${apiSig}&format=json`;
             const response = await fetch(url);
@@ -145,7 +250,7 @@ function calculateArtistDurations(dataArr) {
             return data.recenttracks.track;
         }
 
-        document.getElementById('authButton').addEventListener('click', async () => {
+        document.getElementById("authButton").addEventListener("click", async () => {
             const token = await getToken();
             redirectToLastFmAuth(token);
             // window.location.href = `https://derpac.com/tidbits/lastfm-tidbit/callback?${token}`
@@ -154,17 +259,17 @@ function calculateArtistDurations(dataArr) {
         // After the user is redirected back to your site after authorization
         async function handlePostAuth() {
             const params = new URLSearchParams(window.location.search);
-            if (params.has('token')) {
-                const token = params.get('token');
+            if (params.has("token")) {
+                const token = params.get("token");
                 const sessionKey = await getSessionKey(token);
-                const user = 'derpac';  // Replace with the Last.fm username
+                const user = "derpac";  // Replace with the Last.fm username
                 const tracks = await getUserRecentTracks(user, sessionKey);
 
                 // Display the tracks on the page
-                const tracksDiv = document.getElementById('tracks');
+                const tracksDiv = document.getElementById("tracks");
                 tracksDiv.innerHTML = tracks.map(track => `
-                    <p>${track.artist['#text']} - ${track.name}</p>
-                `).join('');
+                    <p>${track.artist["#text"]} - ${track.name}</p>
+                `).join("");
             }
         }
 
