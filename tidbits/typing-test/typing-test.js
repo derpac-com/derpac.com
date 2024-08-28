@@ -48,9 +48,10 @@ typing.addEventListener("input", function(event){
         checkpoints = 0;
         const timeTaken = (Date.now() - startTime) / 1000;
         addResult(typingVal, timeTaken);
-        typing.value = "";
+
         setTimeout(() => {
             currentIndex = 0;
+            typing.value = "";
             document.getElementById('progress-bar').style.width = '0%';
           }, "150");
     }
@@ -65,7 +66,7 @@ function updateCheckpoints() {
 
 };
 
-document.querySelector('#typing').addEventListener('keydown', function(event) {
+document.querySelector('#typing').addEventListener('input', function(event) {
     const userInput = event.target.value;
     const currentTarget = aim[currentIndex];
     if (userInput[currentIndex] === currentTarget) {
@@ -73,6 +74,8 @@ document.querySelector('#typing').addEventListener('keydown', function(event) {
         updateCheckpoints();
         console.log("Correct input:", currentTarget);
         if (currentIndex === aim.length) {
+            currentIndex++;
+            updateCheckpoints();
             console.log("Typing complete!");
         }
     } else if (!currentTarget.startsWith(userInput[currentIndex])) {
