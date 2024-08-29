@@ -18,37 +18,38 @@ Shared secret 	07e2542cb2c5522881a7fa691af89ddc -->
     <!-- <button id="generate" onclick="handlePostAuth()">Generate tracks</button> -->
     <div id="tracks"></div>
 
+    <div class="grid-container">
     <button class="dropbtn">type
-    <select name="type" id="type">
-        <option value="artists">artist</option>
-        <option value="tracks">track</option>
-        <option value="albums">album</option>
-      </select>
-    </button>
-
-    <button class="dropbtn">time
-        <select name="time" id="time">
-            <option value="7day">7 days</option>
-            <option value="1month ">30 days</option>
-            <option value="6month ">180 days </option>
-            <option value="12month">365 days</option>
-            <option value="overall">overall</option>
+        <select name="type" id="type">
+            <option value="artists">artist</option>
+            <option value="tracks">track</option>
+            <option value="albums">album</option>
           </select>
         </button>
-
-    <button class="dropbtn">amount
-        <select name="amount" id="amount">
-            <option value="10">10</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-            <option value="500">500</option>
-            </select>
-        </button>
-
-    <form id="userForm">
-        <input type="text" id="username" placeholder="Enter Last.fm username">
-        <button type="submit">generate charts</button>
-    </form>
+    
+        <button class="dropbtn">time
+            <select name="time" id="time">
+                <option value="7day">7 days</option>
+                <option value="1month ">30 days</option>
+                <option value="6month ">180 days </option>
+                <option value="12month">365 days</option>
+                <option value="overall">overall</option>
+              </select>
+            </button>
+    
+        <button class="dropbtn">amount
+            <select name="amount" id="amount">
+                <option value="10">10</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="500">500</option>
+                </select>
+            </button>
+            <input type="text" id="username" placeholder="Enter Last.fm username">
+    
+        <button type="submit" id="generate">generate charts</button>
+    
+    </div>
     <p style="font-size:12px">time listened for album and artist is really tough to do due to limitation with the API. time for tracks should work however some songs dont have a time listed so will show as 0.</p>
     <div id="resultTable"></div>
 
@@ -63,7 +64,7 @@ Shared secret 	07e2542cb2c5522881a7fa691af89ddc -->
 // -----------------------        public api request
 
 let dataArr = [];
-document.getElementById("userForm").addEventListener("submit", function(event) {
+document.getElementById("generate").addEventListener("click", function(event) {
     event.preventDefault();
     
     const username = document.getElementById("username").value;
