@@ -61,7 +61,7 @@ select {
 
     }
     
-    /* Dropdown Content (Hidden by Default) */
+    
     option {
     display: none;
     position: absolute;
@@ -75,7 +75,7 @@ select {
     margin: none;
     }
     
-    /* Links inside the dropdown */
+  
     option {
     margin-top: 2px;
     border-radius: 10px;
@@ -89,18 +89,15 @@ select {
     
     }
     
-    /* Change color of dropdown links on hover */
+  
     .dropdown-content p:hover {background-color: #f1f1f1}
     
-    /* Show the dropdown menu on hover */
+   
     .dropdown:hover .dropdown-content {
     display: block;
     }
     
-    /* Change the background color of the dropdown button when the dropdown content is shown
-    .dropdown:hover .dropbtn {
-    background-color: #3e8e41;
-    } */
+   
 
     table{
         font-size: 20px;
