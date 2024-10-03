@@ -7,11 +7,17 @@
     <title>height heatmap</title>
 </head>
 <body>
-    
-    <h2 style="display: inline-block;">
+    <h1>A height heatmap of the uk based on OS data please wait for it to load...</h1>
+    <h2>each pixel of colour represents 500x500 meter square!</h2>
+    <h2 style="display: none;" id="key">
        <img src="/tidbits/heightdata/heat_colours.svg" height="130" width="1320px">
+       
     </h2>
+    
     <canvas id="heatmapCanvas"></canvas>
+    <div id="spinner" style="display: none;"></div>
+        <div class="loader"></div>
+    </div>
     <script src="/tidbits/heightdata/heightdata.js"></script>
 </body>
 </html>

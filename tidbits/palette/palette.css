@@ -28,11 +28,11 @@ input[type = "color"]{
     -moz-appearance: none;
     -webkit-appearance: none;
     background: none;
-    border: none;
+    border: 8px solid #f1f1f1;
     cursor: pointer;
     height: 128px;
     width: 128px;
-    border-bottom: 10px;
+    /* border-bottom: 10px; */
    
 }
 

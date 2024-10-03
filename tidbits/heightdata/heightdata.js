@@ -89,7 +89,10 @@ function decodeRunLength2D(encoded, rows, cols) {
 }
 
 
+const spinner = document.getElementById('spinner');
+const key = document.getElementById('key');
 
+spinner.style.display = 'block'; 
 fetch('encoded.json')
             .then(response => response.json())
             .then(data => {
@@ -118,6 +121,9 @@ fetch('encoded.json')
                         ctx.fillStyle = color;
                         ctx.fillRect(x,y, 1, 1);
                     }
+                    spinner.style.display = 'none';
+                    key.style.display = 'inline-block'
+                
                 }
 
                 // `data` is now an array

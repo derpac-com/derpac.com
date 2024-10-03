@@ -7,7 +7,7 @@ document.getElementById("generate").addEventListener("click", function(event) {
     event.preventDefault();
     let username = document.getElementById("username").value;
     let tagline = document.getElementById("tagline").value;
-    const apiKey = "RGAPI-361edfdb-6350-4945-b98e-001f67ac16f1";
+    const apiKey = "RGAPI-361edfdb-6350-4945-b98e-001f67ac16f1"; 
     console.log(username,tagline,apiKey);
 
     fetchPUUID(username, tagline, apiKey);
