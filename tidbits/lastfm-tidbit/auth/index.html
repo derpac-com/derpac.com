@@ -48,12 +48,20 @@
     
     </div>
     <p style="font-size:12px">time listened for album and artist is really tough to do due to limitation with the API. time for tracks should work however some songs dont have a time listed so will show as 0.</p>
-    <div id="resultTable"></div>
+    
+    <div class="two-col-container">
+    <div id="resultTable"> 
+    </div>
+    <div id="spinner" style="display: none;">
+        <div class="loader"></div>
+    </div>
+    </div>
+   
 
     <script>
     
         const apiSecret = "07e2542cb2c5522881a7fa691af89ddc";  
-
+   
         
     
 
@@ -61,9 +69,10 @@
 // -----------------------        public api request
 
 let dataArr = [];
+const spinner = document.getElementById('spinner');
 document.getElementById("generate").addEventListener("click", function(event) {
     event.preventDefault();
-    
+    spinner.style.display = "inline-block"
     const username = document.getElementById("username").value;
     const period = document.getElementById("time").value;
     const dataType = document.getElementById("type").value;
@@ -212,6 +221,7 @@ function generateTable(title, items, headers, keys, tableId) {
 
   
     tableContainer.appendChild(table);
+    spinner.style.display = "none"
 }
 
 // need to go through and check time per artist!
