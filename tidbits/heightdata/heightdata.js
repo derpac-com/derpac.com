@@ -91,8 +91,8 @@ function decodeRunLength2D(encoded, rows, cols) {
 
 const spinner = document.getElementById('spinner');
 const key = document.getElementById('key');
+spinner.style.display = 'inline-block'; 
 
-spinner.style.display = 'block'; 
 fetch('encoded.json')
             .then(response => response.json())
             .then(data => {
@@ -120,12 +120,14 @@ fetch('encoded.json')
                         // Draw pixel on canvas
                         ctx.fillStyle = color;
                         ctx.fillRect(x,y, 1, 1);
+                       
                     }
-                    spinner.style.display = 'none';
+                    spinner.style.display = 'none'; 
                     key.style.display = 'inline-block'
-                
+             
                 }
 
                 // `data` is now an array
             })
             .catch(error => console.error('Error:', error));
+
