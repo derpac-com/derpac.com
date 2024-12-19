@@ -23,8 +23,23 @@ h1{
     flex-wrap: wrap;
     width: fit-content;
     height: 150 px;
+  
 }
 
 .letter {
     cursor: pointer;
+}
+
+#info-box{
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 14px;
+}
+
+#grid-container{
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr;  
+    align-items: center;
+    justify-items: center;
 }
