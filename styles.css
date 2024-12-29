@@ -63,3 +63,45 @@ details {
 li {
 	margin-bottom: 1em;
 }
+
+.grid {
+	
+	position: relative;
+    height: 100%;
+	width: 100%;
+    background-image:
+        linear-gradient(to bottom, rgb(203 213 225) 1px, transparent 1px);
+    background-size: 2.5rem 2.5rem;
+    background-position: center center;
+	border: 4px dashed #e8e8e8;border-radius:20px;padding: 1em;background-color: #fff8ec;
+	overflow: hidden;
+	padding-left: 4.5rem;
+	padding-bottom: 4.2rem;
+}
+
+.grid::before {
+    content: ''; 
+    position: absolute;
+    top: 0; 
+    bottom: 0; 
+    left: 2.5em; 
+    width: 1px; 
+    background-color: #A07A54; 
+    z-index: 0; 
+}
+.grid > * {
+    position: relative; 
+    z-index: 1; 
+}
+
+.main-container{
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.robot-image{
+	position: absolute;
+	height: 300px;
+	transform: rotate(40deg);
+	right: -10px;
+}
