@@ -76,7 +76,7 @@ li {
 	border: 4px dashed #e8e8e8;border-radius:20px;padding: 1em;background-color: #fff8ec;
 	overflow: hidden;
 	padding-left: 4.5rem;
-	padding-bottom: 4.2rem;
+	padding-bottom: 2.2rem;
 }
 
 .grid::before {
